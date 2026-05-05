@@ -19,6 +19,7 @@ function SpinningShape({ shapeId }) {
     const ref = useRef<THREE.Mesh>(null!)
     useFrame(() => { if (ref.current) {
         ref.current.rotation.y += 0.01
+        ref.current.rotation.x += 0.003
         ref.current.rotation.z += 0.004
     } })
 
