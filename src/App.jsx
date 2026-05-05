@@ -20,7 +20,7 @@ export default function App() {
     const [activeShape, setActiveShape] = useState('tetrahedron')
 
     return (
-        <div style={{ width: '100vw', height: '100vh', background: '#1a1a2e' }}>
+        <div className={`screen`}>
             <Sidebar activeShape={activeShape} onShapeChange={setActiveShape} />
             <Canvas camera={{ position: [3, 3, 3], fov: 65 }}>
                 <ambientLight intensity={0.3} />
