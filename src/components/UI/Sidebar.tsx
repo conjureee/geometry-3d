@@ -5,9 +5,14 @@ import * as THREE from 'three'
 const SHAPES = [
     { id: 'tetrahedron', name: 'Czworościan' },
     { id: 'cube', name: 'Sześcian' },
+    { id: 'cuboid', name: 'Prostopadłościan' },
     { id: 'sphere', name: 'Kula' },
     { id: 'cone', name: 'Stożek' },
     { id: 'cylinder', name: 'Walec' },
+    { id: 'torus', name: 'Pierścień' },
+    { id: 'prizm', name: 'Graniastosłup' },
+    { id: 'ellipsoid', name: 'Spłaszczona kula' },
+    { id: 'pyramid', name: 'Piramida' },
 ]
 
 function SpinningShape({ shapeId }) {
@@ -20,6 +25,16 @@ function SpinningShape({ shapeId }) {
         sphere: <sphereGeometry args={[1.1, 24, 16]} />,
         cone: <coneGeometry args={[1, 1.8, 24]} />,
         cylinder: <cylinderGeometry args={[0.9, 0.9, 1.8, 24]} />,
+        cuboid: <boxGeometry args={[1.6, 0.75, 0.75]} />,
+        torus: <torusGeometry args={[1, 0.4, 32, 100]} />,
+        prizm: <boxGeometry args={[0.75, 1.6, 0.75]} />,
+        pyramid: <coneGeometry args={[1, 2, 4]} />,
+        ellipsoid: (
+            <mesh scale={[1.5, 1, 0.8]}>
+                <sphereGeometry args={[1, 24, 16]} />
+                <meshStandardMaterial color="#4f8ef7" />
+            </mesh>
+        ),
     }
 
     return (
