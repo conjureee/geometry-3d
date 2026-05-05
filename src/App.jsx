@@ -27,7 +27,7 @@ const shapeMap = {
 }
 
 export default function App() {
-    const [activeShape, setActiveShape] = useState('tetrahedron')
+    const [activeShape, setActiveShape] = useState('cube')
 
     return (
         <div className={`screen`}>

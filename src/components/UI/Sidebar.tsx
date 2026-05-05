@@ -17,7 +17,10 @@ const SHAPES = [
 
 function SpinningShape({ shapeId }) {
     const ref = useRef<THREE.Mesh>(null!)
-    useFrame(() => { if (ref.current) ref.current.rotation.y += 0.018 })
+    useFrame(() => { if (ref.current) {
+        ref.current.rotation.y += 0.01
+        ref.current.rotation.z += 0.004
+    } })
 
     const geo = {
         tetrahedron: <tetrahedronGeometry args={[1.1]} />,
