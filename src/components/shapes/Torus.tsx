@@ -1,10 +1,9 @@
-import { Canvas } from '@react-three/fiber'
+import ShapeWrapper from './ShapeWrapper'
 
-export default function Torus({radius, tube}) {
+export default function Torus({ radius, tube, color }) {
     return (
-        <mesh>
+        <ShapeWrapper color={color}>
             <torusGeometry args={[radius, tube, 16, 100]} />
-            <meshStandardMaterial color="red" wireframe={false} />
-        </mesh>
+        </ShapeWrapper>
     )
 }

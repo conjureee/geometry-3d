@@ -1,10 +1,9 @@
-import { Canvas } from '@react-three/fiber'
+import ShapeWrapper from './ShapeWrapper'
 
-export default function Pyramid({radius, height}) {
+export default function Pyramid({ radius, height, color }) {
     return (
-        <mesh>
+        <ShapeWrapper color={color}>
             <coneGeometry args={[radius, height, 4]} />
-            <meshStandardMaterial color="blue" wireframe={false} />
-        </mesh>
+        </ShapeWrapper>
     )
 }

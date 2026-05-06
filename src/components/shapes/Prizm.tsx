@@ -1,10 +1,9 @@
-import { Canvas } from '@react-three/fiber'
+import ShapeWrapper from './ShapeWrapper'
 
-export default function Prizm({width, height, depth}) {
+export default function Prizm({ width, height, depth, color }) {
     return (
-        <mesh>
+        <ShapeWrapper color={color}>
             <boxGeometry args={[width, height, depth]} />
-            <meshStandardMaterial color="wheat" wireframe={false} />
-        </mesh>
+        </ShapeWrapper>
     )
 }

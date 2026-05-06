@@ -1,10 +1,9 @@
-import { Canvas } from '@react-three/fiber'
+import ShapeWrapper from './ShapeWrapper'
 
-export default function Cylinder({radius, height}) {
+export default function Cylinder({ radius, height, color }) {
     return (
-        <mesh>
+        <ShapeWrapper color={color}>
             <cylinderGeometry args={[radius, radius, height, 128]} />
-            <meshStandardMaterial color="orange" wireframe={false} />
-        </mesh>
+        </ShapeWrapper>
     )
 }

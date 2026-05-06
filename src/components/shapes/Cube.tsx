@@ -1,10 +1,9 @@
-import { Canvas } from '@react-three/fiber'
+import ShapeWrapper from './ShapeWrapper'
 
-export default function Cube({size}) {
+export default function Cube({ size, color }) {
     return (
-        <mesh>
+        <ShapeWrapper color={color}>
             <boxGeometry args={[size, size, size]} />
-            <meshStandardMaterial color="green" wireframe={false} />
-        </mesh>
+        </ShapeWrapper>
     )
 }

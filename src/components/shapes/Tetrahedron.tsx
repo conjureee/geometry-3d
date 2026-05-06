@@ -1,10 +1,9 @@
-import { Canvas } from '@react-three/fiber'
+import ShapeWrapper from './ShapeWrapper'
 
-export default function Tetrahedron({radius}) {
+export default function Tetrahedron({ radius, color }) {
     return (
-        <mesh>
+        <ShapeWrapper color={color}>
             <tetrahedronGeometry args={[radius]} />
-            <meshStandardMaterial color="blue" wireframe={false} />
-        </mesh>
+        </ShapeWrapper>
     )
 }

@@ -1,10 +1,9 @@
-import { Canvas } from '@react-three/fiber'
+import ShapeWrapper from './ShapeWrapper'
 
-export default function Cone({ radius = 1.5, height = 2.75, sides = 32 }) {
+export default function Cone({ radius = 1.5, height = 2.75, sides = 32, color }) {
     return (
-        <mesh>
+        <ShapeWrapper color={color}>
             <coneGeometry args={[radius, height, sides]} />
-            <meshStandardMaterial color="yellow" />
-        </mesh>
+        </ShapeWrapper>
     )
 }

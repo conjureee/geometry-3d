@@ -30,10 +30,11 @@ const shapeMap = {
 export default function App() {
     const [activeShape, setActiveShape] = useState('cube')
     const [params, setParams] = useState(() => getDefaults('cube'))
+    const [color, setColor] = useState('orange')
 
     function handleShapeChange(id) {
         setActiveShape(id)
-        setParams(getDefaults(id))  // reset parametrów przy zmianie figury
+        setParams(getDefaults(id))
     }
 
     function handleParamChange(key, value) {
@@ -48,7 +49,7 @@ export default function App() {
                 <ambientLight intensity={0.3} />
                 <directionalLight position={[5, 5, 5]} intensity={1.2} />
                 <directionalLight position={[-5, 2, -5]} intensity={0.3} />
-                {shapeMap[activeShape]?.(params)}
+                {shapeMap[activeShape]?.({ ...params, color })}
                 <OrbitControls />
                 <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
                     <GizmoViewport />
