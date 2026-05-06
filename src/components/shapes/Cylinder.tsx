@@ -1,9 +1,9 @@
 import { Canvas } from '@react-three/fiber'
 
-export default function Cylinder() {
+export default function Cylinder({radius, height}) {
     return (
         <mesh>
-            <cylinderGeometry args={[1, 1, 2.75, 128]} />
+            <cylinderGeometry args={[radius, radius, height, 128]} />
             <meshStandardMaterial color="orange" wireframe={false} />
         </mesh>
     )

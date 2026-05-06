@@ -1,9 +1,9 @@
 import { Canvas } from '@react-three/fiber'
 
-export default function Sphere() {
+export default function Sphere({radius}) {
     return (
         <mesh>
-            <sphereGeometry args={[1.75, 32, 32]} />
+            <sphereGeometry args={[radius, 32, 32]} />
             <meshStandardMaterial color="green" wireframe={false} />
         </mesh>
     )

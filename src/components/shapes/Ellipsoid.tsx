@@ -1,8 +1,8 @@
 import { Canvas } from '@react-three/fiber'
 
-export default function Ellipsoid() {
+export default function Ellipsoid({scaleX, scaleY, scaleZ}) {
     return (
-        <mesh scale={[1.5, 1, 1]}>
+        <mesh scale={[scaleX, scaleY, scaleZ]}>
             <sphereGeometry args={[1.5, 64, 32]} />
             <meshStandardMaterial color="grey" />
         </mesh>

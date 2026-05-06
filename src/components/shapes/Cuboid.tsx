@@ -1,9 +1,9 @@
 import { Canvas } from '@react-three/fiber'
 
-export default function Cuboid() {
+export default function Cuboid({width, height, depth}) {
     return (
         <mesh>
-            <boxGeometry args={[4, 1.75, 1.75]} />
+            <boxGeometry args={[width, height, depth]} />
             <meshStandardMaterial color="red" wireframe={false} />
         </mesh>
     )

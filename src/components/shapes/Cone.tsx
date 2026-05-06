@@ -1,10 +1,10 @@
 import { Canvas } from '@react-three/fiber'
 
-export default function Cone() {
+export default function Cone({ radius = 1.5, height = 2.75, sides = 32 }) {
     return (
         <mesh>
-            <coneGeometry args={[1.5, 2.75, 32]} />
-            <meshStandardMaterial color="yellow" wireframe={false} />
+            <coneGeometry args={[radius, height, sides]} />
+            <meshStandardMaterial color="yellow" />
         </mesh>
     )
 }

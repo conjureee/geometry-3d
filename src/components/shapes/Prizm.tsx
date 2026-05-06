@@ -1,9 +1,9 @@
 import { Canvas } from '@react-three/fiber'
 
-export default function Prizm() {
+export default function Prizm({width, height, depth}) {
     return (
         <mesh>
-            <boxGeometry args={[1.75, 4, 1.75]} />
+            <boxGeometry args={[width, height, depth]} />
             <meshStandardMaterial color="wheat" wireframe={false} />
         </mesh>
     )
