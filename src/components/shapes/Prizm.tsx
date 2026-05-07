@@ -56,7 +56,7 @@ export default function Prizm({
             const halfH = height / 2
             const EPS = 1e-6
 
-            const crossPts = new Map()
+            const crossPts = {}
 
             for (let i = 0; i < sides; i++) {
                 const [x1, z1] = vertices[i]
@@ -70,8 +70,8 @@ export default function Prizm({
                             const key1 = z1.toFixed(8)
                             const key2 = z2.toFixed(8)
 
-                            if (!crossPts.has(key1)) crossPts.set(key1, z1)
-                            if (!crossPts.has(key2)) crossPts.set(key2, z2)
+                            crossPts[key1] = z1
+                            crossPts[key2] = z2
                         }
 
                         continue
@@ -86,7 +86,7 @@ export default function Prizm({
 
                     const key = zc.toFixed(8)
 
-                    if (!crossPts.has(key)) crossPts.set(key, zc)
+                    crossPts[key] = zc
                 } else {
                     const dz = z2 - z1
 
@@ -95,8 +95,8 @@ export default function Prizm({
                             const key1 = x1.toFixed(8)
                             const key2 = x2.toFixed(8)
 
-                            if (!crossPts.has(key1)) crossPts.set(key1, x1)
-                            if (!crossPts.has(key2)) crossPts.set(key2, x2)
+                            crossPts[key1] = x1
+                            crossPts[key2] = x2
                         }
 
                         continue
@@ -111,11 +111,16 @@ export default function Prizm({
 
                     const key = xc.toFixed(8)
 
-                    if (!crossPts.has(key)) crossPts.set(key, xc)
+                    crossPts[key] = xc
                 }
             }
+            const coords = []
 
-            const coords = Array.from(crossPts.values()).sort((a, b) => a - b)
+            for (const key in crossPts) {
+                coords.push(crossPts[key])
+            }
+
+            coords.sort((a, b) => a - b)
 
             if (coords.length < 2) return null
 
