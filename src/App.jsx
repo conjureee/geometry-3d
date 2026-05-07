@@ -9,10 +9,7 @@ import Sphere from './components/shapes/Sphere'
 import Cone from './components/shapes/Cone'
 import Cylinder from './components/shapes/Cylinder'
 import Cuboid from './components/shapes/Cuboid'
-import Torus from './components/shapes/Torus'
 import Prizm from './components/shapes/Prizm'
-import Ellipsoid from './components/shapes/Ellipsoid'
-import Pyramid from './components/shapes/Pyramid'
 
 const shapeMap = {
     tetrahedron: (p) => <Tetrahedron {...p} />,
@@ -21,10 +18,7 @@ const shapeMap = {
     cone:        (p) => <Cone {...p} />,
     cylinder:    (p) => <Cylinder {...p} />,
     cuboid:      (p) => <Cuboid {...p} />,
-    torus:       (p) => <Torus {...p} />,
     prizm:       (p) => <Prizm {...p} />,
-    ellipsoid:   (p) => <Ellipsoid {...p} />,
-    pyramid:     (p) => <Pyramid {...p} />,
 }
 
 export default function App() {

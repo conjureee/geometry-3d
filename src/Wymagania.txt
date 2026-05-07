@@ -1,5 +1,6 @@
-- Przekątne
+- Przekątne (Maksym)
 - Kąty (nachylenie ściany bocznej do płaszczyzny przekątnej)
-- Przekroje (sześcianu i ostrosłupa)
-- Walec, stożek, kula, graniastosłupy, ostrosłup
-- Stożek i Walec animacja tworzenia z trójkąta
+- Przekroje (sześcianu i ostrosłupa) (Dawid)
+- Stożek i Walec animacja tworzenia z trójkąta (Maksym)
+
+- Stożek pochyły

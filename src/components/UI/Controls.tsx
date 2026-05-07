@@ -18,29 +18,15 @@ const CONTROLS = {
     cone: [
         { key: 'radius', label: 'Promień podstawy', min: 0.5, max: 5, step: 0.1, default: 1.25 },
         { key: 'height', label: 'Wysokość',         min: 0.5, max: 6, step: 0.1, default: 2.5 },
-        { key: 'sides',  label: 'Boki',             min: 3,   max: 32, step: 1,  default: 32 },
     ],
     cylinder: [
         { key: 'radius', label: 'Promień', min: 0.5, max: 5, step: 0.1, default: 0.9 },
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
     ],
-    torus: [
-        { key: 'radius', label: 'Promień pierścienia', min: 0.5, max: 4, step: 0.1, default: 1 },
-        { key: 'tube',   label: 'Grubość rury',        min: 0.1, max: 2, step: 0.05, default: 0.4 },
-    ],
     prizm: [
         { key: 'width',  label: 'Szerokość', min: 0.5, max: 5, step: 0.1, default: 1 },
         { key: 'height', label: 'Wysokość',  min: 0.5, max: 6, step: 0.1, default: 3 },
         { key: 'depth',  label: 'Głębokość', min: 0.5, max: 5, step: 0.1, default: 1.25 },
-    ],
-    ellipsoid: [
-        { key: 'scaleX', label: 'Skala X', min: 0.3, max: 2.5, step: 0.1, default: 1.5 },
-        { key: 'scaleY', label: 'Skala Y', min: 0.3, max: 2.5, step: 0.1, default: 1.0 },
-        { key: 'scaleZ', label: 'Skala Z', min: 0.3, max: 2.5, step: 0.1, default: 0.8 },
-    ],
-    pyramid: [
-        { key: 'radius', label: 'Promień podstawy', min: 0.5, max: 5, step: 0.1, default: 1.25 },
-        { key: 'height', label: 'Wysokość',         min: 0.5, max: 6, step: 0.1, default: 2.5 },
     ],
 }
 
