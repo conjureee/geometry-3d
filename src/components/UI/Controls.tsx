@@ -8,9 +8,9 @@ const CONTROLS = {
         { key: 'size', label: 'Rozmiar', min: 0.5, max: 5, step: 0.1, default: 1.6 },
     ],
     cuboid: [
-        { key: 'width',  label: 'Szerokość', min: 0.5, max: 5, step: 0.1, default: 3 },
-        { key: 'height', label: 'Wysokość',  min: 0.5, max: 5, step: 0.1, default: 1 },
-        { key: 'depth',  label: 'Głębokość', min: 0.5, max: 5, step: 0.1, default: 1.4 },
+        { key: 'width', label: 'Szerokość', min: 0.5, max: 5, step: 0.1, default: 3 },
+        { key: 'height', label: 'Wysokość', min: 0.5, max: 5, step: 0.1, default: 1 },
+        { key: 'depth', label: 'Głębokość', min: 0.5, max: 5, step: 0.1, default: 1.4 },
     ],
     sphere: [
         { key: 'radius', label: 'Promień', min: 0.5, max: 5, step: 0.1, default: 1.5 },
@@ -24,6 +24,7 @@ const CONTROLS = {
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
     ],
     prizm: [
+        { key: 'radius', label: 'Promień', min: 0.5, max: 5, step: 0.1, default: 1.25 },
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
         { key: 'sides', label: 'Boki w podstawie', min: 3, max: 16, step: 1, default: 5 },
     ],
@@ -33,27 +34,99 @@ const CONTROLS = {
         { key: 'sides', label: 'Boki w podstawie', min: 3, max: 32, step: 1, default: 5 },
     ],
 }
+
 const SUPPORTS_DIAGONALS = ['cube', 'cuboid', 'prizm', 'pyramid']
 
 export function getDefaults(shapeId) {
-    const obj = {};
-    (CONTROLS[shapeId] || []).forEach(c => {
+    const obj = {}
+
+    ;(CONTROLS[shapeId] || []).forEach(c => {
         obj[c.key] = c.default
     })
+
     return obj
 }
 
-export default function Controls({ activeShape, params, onChange, showDiagonals, onDiagonalsChange, showEdges, onEdgesChange }) {
+export default function Controls({
+                                     activeShape,
+                                     params,
+                                     onChange,
+                                     showDiagonals,
+                                     onDiagonalsChange,
+                                     showEdges,
+                                     onEdgesChange,
+                                     crossSection,
+                                     onCrossSectionChange,
+                                 }) {
     const controls = CONTROLS[activeShape] || []
+
     const [open, setOpen] = useState(true)
+    const [csOpen, setCsOpen] = useState(true)
+
+    const showCrossSection = activeShape === 'prizm'
+
+    const radius = params?.radius ?? 1.25
+    const height = params?.height ?? 2.5
+    const sides = params?.sides ?? 5
+
+    const { posMin, posMax } = (() => {
+        if (!crossSection?.plane || activeShape !== 'prizm') {
+            return { posMin: -radius, posMax: radius }
+        }
+
+        if (crossSection.plane === 'XZ') {
+            return {
+                posMin: -(height / 2),
+                posMax: height / 2,
+            }
+        }
+
+        const xs = []
+        const zs = []
+
+        for (let i = 0; i < sides; i++) {
+            const a = (i / sides) * Math.PI * 2
+            xs.push(Math.sin(a) * radius)
+            zs.push(Math.cos(a) * radius)
+        }
+
+        if (crossSection.plane === 'XY') {
+            return {
+                posMin: Math.min(...xs),
+                posMax: Math.max(...xs),
+            }
+        }
+
+        return {
+            posMin: Math.min(...zs),
+            posMax: Math.max(...zs),
+        }
+    })()
 
     return (
         <div className="controls-panel">
-            <div className="controls-header" onClick={() => setOpen(o => !o)}>
+            <div
+                className="controls-header"
+                onClick={() => setOpen(o => !o)}
+            >
                 <span className="controls-title">parametry</span>
-                <svg width="12" height="8" viewBox="0 0 14 8" fill="none"
-                     style={{ transform: open ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.3s' }}>
-                    <path d="M1 1L7 7L13 1" stroke="rgba(79,142,247,0.7)" strokeWidth="1.5" strokeLinecap="round"/>
+
+                <svg
+                    width="12"
+                    height="8"
+                    viewBox="0 0 14 8"
+                    fill="none"
+                    style={{
+                        transform: open ? 'rotate(0deg)' : 'rotate(-90deg)',
+                        transition: 'transform 0.3s',
+                    }}
+                >
+                    <path
+                        d="M1 1L7 7L13 1"
+                        stroke="rgba(79,142,247,0.7)"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                    />
                 </svg>
             </div>
 
@@ -62,14 +135,29 @@ export default function Controls({ activeShape, params, onChange, showDiagonals,
                     {controls.map(ctrl => (
                         <div key={ctrl.key} className="control-row">
                             <div className="control-label-row">
-                                <span className="control-label">{ctrl.label}</span>
-                                <span className="control-value">{Number(params[ctrl.key]).toFixed(ctrl.step < 1 ? 2 : 0)}</span>
+                                <span className="control-label">
+                                    {ctrl.label}
+                                </span>
+
+                                <span className="control-value">
+                                    {Number(params[ctrl.key]).toFixed(
+                                        ctrl.step < 1 ? 2 : 0
+                                    )}
+                                </span>
                             </div>
+
                             <input
                                 type="range"
-                                min={ctrl.min} max={ctrl.max} step={ctrl.step}
+                                min={ctrl.min}
+                                max={ctrl.max}
+                                step={ctrl.step}
                                 value={params[ctrl.key]}
-                                onChange={e => onChange(ctrl.key, parseFloat(e.target.value))}
+                                onChange={e =>
+                                    onChange(
+                                        ctrl.key,
+                                        parseFloat(e.target.value)
+                                    )
+                                }
                                 className="control-slider"
                             />
                         </div>
@@ -81,9 +169,14 @@ export default function Controls({ activeShape, params, onChange, showDiagonals,
                         <input
                             type="checkbox"
                             checked={showEdges}
-                            onChange={e => onEdgesChange(e.target.checked)}
+                            onChange={e =>
+                                onEdgesChange(e.target.checked)
+                            }
                         />
-                        <span className="control-label">krawędzie ścian</span>
+
+                        <span className="control-label">
+                            krawędzie ścian
+                        </span>
                     </label>
 
                     {SUPPORTS_DIAGONALS.includes(activeShape) && (
@@ -91,17 +184,144 @@ export default function Controls({ activeShape, params, onChange, showDiagonals,
                             <input
                                 type="checkbox"
                                 checked={showDiagonals}
-                                onChange={e => onDiagonalsChange(e.target.checked)}
+                                onChange={e =>
+                                    onDiagonalsChange(e.target.checked)
+                                }
                             />
+
                             <span
                                 className="control-label"
-                                style={{ color: 'rgba(255,80,80,0.8)' }}
+                                style={{
+                                    color: 'rgba(255,80,80,0.8)',
+                                }}
                             >
                                 przekątne bryły
                             </span>
                         </label>
                     )}
                 </div>
+            )}
+
+            {showCrossSection && crossSection && (
+                <>
+                    <div
+                        className="controls-header"
+                        onClick={() => setCsOpen(o => !o)}
+                        style={{ marginTop: '8px' }}
+                    >
+                        <span className="controls-title">przekroje</span>
+
+                        <svg
+                            width="12"
+                            height="8"
+                            viewBox="0 0 14 8"
+                            fill="none"
+                            style={{
+                                transform: csOpen
+                                    ? 'rotate(0deg)'
+                                    : 'rotate(-90deg)',
+                                transition: 'transform 0.3s',
+                            }}
+                        >
+                            <path
+                                d="M1 1L7 7L13 1"
+                                stroke="rgba(79,142,247,0.7)"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                            />
+                        </svg>
+                    </div>
+
+                    {csOpen && (
+                        <div className="controls-body">
+                            <div className="control-row">
+                                <label className="toggle-row">
+                                    <span className="control-label">
+                                        Włącz przekrój
+                                    </span>
+
+                                    <input
+                                        type="checkbox"
+                                        checked={crossSection.enabled}
+                                        onChange={e =>
+                                            onCrossSectionChange(
+                                                'enabled',
+                                                e.target.checked
+                                            )
+                                        }
+                                        className="toggle-checkbox"
+                                    />
+                                </label>
+                            </div>
+
+                            {crossSection.enabled && (
+                                <>
+                                    <div className="control-row">
+                                        <span className="control-label">
+                                            Płaszczyzna
+                                        </span>
+
+                                        <div className="button-group">
+                                            {['XY', 'XZ', 'YZ'].map(p => (
+                                                <button
+                                                    key={p}
+                                                    className={`plane-button ${
+                                                        crossSection.plane === p
+                                                            ? 'active'
+                                                            : ''
+                                                    }`}
+                                                    onClick={() =>
+                                                        onCrossSectionChange(
+                                                            'plane',
+                                                            p
+                                                        )
+                                                    }
+                                                >
+                                                    {p}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="control-row">
+                                        <div className="control-label-row">
+                                            <span className="control-label">
+                                                Pozycja
+                                            </span>
+
+                                            <span className="control-value">
+                                                {crossSection.position.toFixed(
+                                                    2
+                                                )}
+                                            </span>
+                                        </div>
+
+                                        <input
+                                            type="range"
+                                            min={posMin}
+                                            max={posMax}
+                                            step={0.01}
+                                            value={Math.min(
+                                                Math.max(
+                                                    crossSection.position,
+                                                    posMin
+                                                ),
+                                                posMax
+                                            )}
+                                            onChange={e =>
+                                                onCrossSectionChange(
+                                                    'position',
+                                                    parseFloat(e.target.value)
+                                                )
+                                            }
+                                            className="control-slider"
+                                        />
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    )}
+                </>
             )}
         </div>
     )

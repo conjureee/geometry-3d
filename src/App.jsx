@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, GizmoHelper, GizmoViewport } from '@react-three/drei'
+
 import Sidebar from './components/UI/Sidebar'
 import Controls, { getDefaults } from './components/UI/Controls'
+
 import Tetrahedron from './components/shapes/Tetrahedron'
 import Cube from './components/shapes/Cube'
 import Sphere from './components/shapes/Sphere'
@@ -26,23 +28,50 @@ const shapeMap = {
 export default function App() {
     const [activeShape, setActiveShape] = useState('cube')
     const [params, setParams] = useState(() => getDefaults('cube'))
-    const [color, setColor] = useState('#9CD5FF')
+
+    const [color, setColor] = useState('#FFFDEB')
+
     const [showDiagonals, setShowDiagonals] = useState(false)
     const [showEdges, setShowEdges] = useState(true)
 
+    const [crossSection, setCrossSection] = useState({
+        enabled: false,
+        plane: 'XY',
+        position: 0,
+    })
 
     function handleShapeChange(id) {
         setActiveShape(id)
         setParams(getDefaults(id))
+
+        setCrossSection({
+            enabled: false,
+            plane: 'XY',
+            position: 0,
+        })
     }
 
     function handleParamChange(key, value) {
-        setParams(prev => ({ ...prev, [key]: value }))
+        setParams(prev => ({
+            ...prev,
+            [key]: value,
+        }))
+    }
+
+    function handleCrossSectionChange(key, value) {
+        setCrossSection(prev => ({
+            ...prev,
+            [key]: value,
+        }))
     }
 
     return (
         <div className="screen">
-            <Sidebar activeShape={activeShape} onShapeChange={handleShapeChange} />
+            <Sidebar
+                activeShape={activeShape}
+                onShapeChange={handleShapeChange}
+            />
+
             <Controls
                 activeShape={activeShape}
                 params={params}
@@ -51,14 +80,40 @@ export default function App() {
                 onDiagonalsChange={setShowDiagonals}
                 showEdges={showEdges}
                 onEdgesChange={setShowEdges}
+                crossSection={crossSection}
+                onCrossSectionChange={handleCrossSectionChange}
             />
-            <Canvas camera={{ position: [3, 3, 3], fov: 65 }}>
+
+            <Canvas
+                camera={{ position: [3, 3, 3], fov: 65 }}
+                gl={{ localClippingEnabled: true }}
+            >
                 <ambientLight intensity={0.3} />
-                <directionalLight position={[5, 5, 5]} intensity={1.2} />
-                <directionalLight position={[-5, 2, -5]} intensity={0.3} />
-                {shapeMap[activeShape]?.({ ...params, color, showDiagonals, showEdges })}
+
+                <directionalLight
+                    position={[5, 5, 5]}
+                    intensity={1.2}
+                />
+
+                <directionalLight
+                    position={[-5, 2, -5]}
+                    intensity={0.3}
+                />
+
+                {shapeMap[activeShape]?.({
+                    ...params,
+                    color,
+                    showDiagonals,
+                    showEdges,
+                    crossSection,
+                })}
+
                 <OrbitControls />
-                <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+
+                <GizmoHelper
+                    alignment="bottom-right"
+                    margin={[80, 80]}
+                >
                     <GizmoViewport />
                 </GizmoHelper>
             </Canvas>
