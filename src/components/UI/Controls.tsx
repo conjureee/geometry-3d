@@ -42,7 +42,7 @@ export function getDefaults(shapeId) {
     return obj
 }
 
-export default function Controls({ activeShape, params, onChange }) {
+export default function Controls({ activeShape, params, onChange, showDiagonals, onDiagonalsChange, showEdges, onEdgesChange }) {
     const controls = CONTROLS[activeShape] || []
     const [open, setOpen] = useState(true)
 
@@ -50,10 +50,8 @@ export default function Controls({ activeShape, params, onChange }) {
         <div className="controls-panel">
             <div className="controls-header" onClick={() => setOpen(o => !o)}>
                 <span className="controls-title">parametry</span>
-                <svg
-                    width="12" height="8" viewBox="0 0 14 8" fill="none"
-                    style={{ transform: open ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.3s' }}
-                >
+                <svg width="12" height="8" viewBox="0 0 14 8" fill="none"
+                     style={{ transform: open ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.3s' }}>
                     <path d="M1 1L7 7L13 1" stroke="rgba(79,142,247,0.7)" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
             </div>
@@ -68,15 +66,33 @@ export default function Controls({ activeShape, params, onChange }) {
                             </div>
                             <input
                                 type="range"
-                                min={ctrl.min}
-                                max={ctrl.max}
-                                step={ctrl.step}
+                                min={ctrl.min} max={ctrl.max} step={ctrl.step}
                                 value={params[ctrl.key]}
                                 onChange={e => onChange(ctrl.key, parseFloat(e.target.value))}
                                 className="control-slider"
                             />
                         </div>
                     ))}
+
+                    <div className="controls-divider" />
+
+                    <label className="control-checkbox-row">
+                        <input
+                            type="checkbox"
+                            checked={showEdges}
+                            onChange={e => onEdgesChange(e.target.checked)}
+                        />
+                        <span className="control-label">krawędzie ścian</span>
+                    </label>
+
+                    <label className="control-checkbox-row">
+                        <input
+                            type="checkbox"
+                            checked={showDiagonals}
+                            onChange={e => onDiagonalsChange(e.target.checked)}
+                        />
+                        <span className="control-label" style={{ color: 'rgba(255,80,80,0.8)' }}>przekątne bryły</span>
+                    </label>
                 </div>
             )}
         </div>

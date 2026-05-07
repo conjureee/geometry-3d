@@ -217,3 +217,24 @@ body { font-family: 'Inter', system-ui, sans-serif; }
   border: none;
   cursor: pointer;
 }
+
+.controls-divider {
+    height: 1px;
+    background: rgba(79, 142, 247, 0.1);
+    margin: 4px 0;
+}
+
+.control-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.control-checkbox-row input[type="checkbox"] {
+    accent-color: #4f8ef7;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}

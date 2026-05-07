@@ -27,6 +27,9 @@ export default function App() {
     const [activeShape, setActiveShape] = useState('cube')
     const [params, setParams] = useState(() => getDefaults('cube'))
     const [color, setColor] = useState('orange')
+    const [showDiagonals, setShowDiagonals] = useState(false)
+    const [showEdges, setShowEdges] = useState(true)
+
 
     function handleShapeChange(id) {
         setActiveShape(id)
@@ -40,12 +43,21 @@ export default function App() {
     return (
         <div className="screen">
             <Sidebar activeShape={activeShape} onShapeChange={handleShapeChange} />
+            <Controls
+                activeShape={activeShape}
+                params={params}
+                onChange={handleParamChange}
+                showDiagonals={showDiagonals}
+                onDiagonalsChange={setShowDiagonals}
+                showEdges={showEdges}
+                onEdgesChange={setShowEdges}
+            />
             <Controls activeShape={activeShape} params={params} onChange={handleParamChange} />
             <Canvas camera={{ position: [3, 3, 3], fov: 65 }}>
                 <ambientLight intensity={0.3} />
                 <directionalLight position={[5, 5, 5]} intensity={1.2} />
                 <directionalLight position={[-5, 2, -5]} intensity={0.3} />
-                {shapeMap[activeShape]?.({ ...params, color })}
+                {shapeMap[activeShape]?.({ ...params, color, showDiagonals, showEdges })}
                 <OrbitControls />
                 <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
                     <GizmoViewport />
