@@ -25,12 +25,12 @@ const CONTROLS = {
     ],
     prizm: [
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
-        { key: 'sides', label: 'Boki w podstawie', min: 3, max: 64, step: 1, default: 5 },
+        { key: 'sides', label: 'Boki w podstawie', min: 3, max: 16, step: 1, default: 5 },
     ],
     pyramid: [
         { key: 'radius', label: 'Promień podstawy', min: 0.5, max: 5, step: 0.1, default: 1.25 },
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
-        { key: 'sides', label: 'Boki w podstawie', min: 3, max: 64, step: 1, default: 5 },
+        { key: 'sides', label: 'Boki w podstawie', min: 3, max: 32, step: 1, default: 5 },
     ],
 }
 const SUPPORTS_DIAGONALS = ['cube', 'cuboid', 'prizm', 'pyramid']
