@@ -1,0 +1,5 @@
+- Przekątne
+- Kąty (nachylenie ściany bocznej do płaszczyzny przekątnej)
+- Przekroje (sześcianu i ostrosłupa)
+- Walec, stożek, kula, graniastosłupy, ostrosłup
+- Stożek i Walec animacja tworzenia z trójkąta
