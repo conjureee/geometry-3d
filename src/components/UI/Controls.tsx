@@ -179,7 +179,7 @@ export default function Controls({
                         </span>
                     </label>
 
-                    {SUPPORTS_DIAGONALS.includes(activeShape) && (
+                    {SUPPORTS_DIAGONALS.indexOf(activeShape) !== -1 && (
                         <label className="control-checkbox-row">
                             <input
                                 type="checkbox"
