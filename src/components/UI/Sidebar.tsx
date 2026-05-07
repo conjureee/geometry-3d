@@ -10,6 +10,7 @@ const SHAPES = [
     { id: 'cone', name: 'Stożek' },
     { id: 'cylinder', name: 'Walec' },
     { id: 'prizm', name: 'Graniastosłup' },
+    { id: 'pyramid', name: 'Ostrosłup' },
 ]
 
 function SpinningShape({ shapeId }) {
@@ -28,6 +29,7 @@ function SpinningShape({ shapeId }) {
         cylinder: <cylinderGeometry args={[0.9, 0.9, 1.8, 24]} />,
         cuboid: <boxGeometry args={[1.6, 0.75, 0.75]} />,
         prizm: <boxGeometry args={[0.75, 1.6, 0.75]} />,
+        pyramid: <coneGeometry args={[1, 1.8, 5]} />,
     }
 
     return (

@@ -4,7 +4,7 @@ export default function ShapeWrapper({ children, color = 'white' }) {
     return (
         <mesh>
             {children}
-            <meshStandardMaterial color={color} />
+            <meshStandardMaterial color={color} wireframe={true} />
         </mesh>
     )
 }
