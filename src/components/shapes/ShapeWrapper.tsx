@@ -41,22 +41,32 @@ export default function ShapeWrapper({ children, color = 'white', showDiagonals 
                 {children}
                 <meshStandardMaterial
                     color={color}
+                    emissive={color}
+                    emissiveIntensity={0.2}
                     transparent={true}
-                    opacity={0.15}
+                    opacity={0.25}
                     side={THREE.DoubleSide}
                     depthWrite={false}
                 />
             </mesh>
 
-            {showEdges && edgesGeo && (
-                <lineSegments geometry={edgesGeo}>
-                    <lineBasicMaterial color={color} linewidth={1} />
+            {showDiagonals && diagonalLines && (
+                <lineSegments geometry={diagonalLines} renderOrder={1}>
+                    <lineBasicMaterial
+                        color="#C00707"
+                        linewidth={1}
+                        depthTest={false}
+                    />
                 </lineSegments>
             )}
 
-            {showDiagonals && diagonalLines && (
-                <lineSegments geometry={diagonalLines}>
-                    <lineBasicMaterial color="#ff4444" linewidth={1} />
+            {showEdges && edgesGeo && (
+                <lineSegments geometry={edgesGeo} renderOrder={2}>
+                    <lineBasicMaterial
+                        color={color}
+                        linewidth={1}
+                        depthTest={false}
+                    />
                 </lineSegments>
             )}
         </group>

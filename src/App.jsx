@@ -26,7 +26,7 @@ const shapeMap = {
 export default function App() {
     const [activeShape, setActiveShape] = useState('cube')
     const [params, setParams] = useState(() => getDefaults('cube'))
-    const [color, setColor] = useState('#FFFDEB')
+    const [color, setColor] = useState('#9CD5FF')
     const [showDiagonals, setShowDiagonals] = useState(false)
     const [showEdges, setShowEdges] = useState(true)
 
