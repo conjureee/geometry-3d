@@ -52,7 +52,6 @@ export default function App() {
                 showEdges={showEdges}
                 onEdgesChange={setShowEdges}
             />
-            <Controls activeShape={activeShape} params={params} onChange={handleParamChange} />
             <Canvas camera={{ position: [3, 3, 3], fov: 65 }}>
                 <ambientLight intensity={0.3} />
                 <directionalLight position={[5, 5, 5]} intensity={1.2} />

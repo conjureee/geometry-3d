@@ -33,6 +33,7 @@ const CONTROLS = {
         { key: 'sides', label: 'Boki w podstawie', min: 3, max: 64, step: 1, default: 5 },
     ],
 }
+const SUPPORTS_DIAGONALS = ['cube', 'cuboid', 'prizm', 'pyramid']
 
 export function getDefaults(shapeId) {
     const obj = {};
@@ -85,14 +86,21 @@ export default function Controls({ activeShape, params, onChange, showDiagonals,
                         <span className="control-label">krawędzie ścian</span>
                     </label>
 
-                    <label className="control-checkbox-row">
-                        <input
-                            type="checkbox"
-                            checked={showDiagonals}
-                            onChange={e => onDiagonalsChange(e.target.checked)}
-                        />
-                        <span className="control-label" style={{ color: 'rgba(255,80,80,0.8)' }}>przekątne bryły</span>
-                    </label>
+                    {SUPPORTS_DIAGONALS.includes(activeShape) && (
+                        <label className="control-checkbox-row">
+                            <input
+                                type="checkbox"
+                                checked={showDiagonals}
+                                onChange={e => onDiagonalsChange(e.target.checked)}
+                            />
+                            <span
+                                className="control-label"
+                                style={{ color: 'rgba(255,80,80,0.8)' }}
+                            >
+                                przekątne bryły
+                            </span>
+                        </label>
+                    )}
                 </div>
             )}
         </div>
