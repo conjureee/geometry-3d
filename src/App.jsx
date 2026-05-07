@@ -14,13 +14,13 @@ import Pyramid from './components/shapes/Pyramid'
 
 const shapeMap = {
     tetrahedron: (p) => <Tetrahedron {...p} />,
-    cube:        (p) => <Cube {...p} />,
-    sphere:      (p) => <Sphere {...p} />,
-    cone:        (p) => <Cone {...p} />,
-    cylinder:    (p) => <Cylinder {...p} />,
-    cuboid:      (p) => <Cuboid {...p} />,
-    prizm:       (p) => <Prizm {...p} />,
-    pyramid:       (p) => <Pyramid {...p} />,
+    cube: (p) => <Cube {...p} />,
+    sphere: (p) => <Sphere {...p} />,
+    cone: (p) => <Cone {...p} />,
+    cylinder: (p) => <Cylinder {...p} />,
+    cuboid: (p) => <Cuboid {...p} />,
+    prizm: (p) => <Prizm {...p} />,
+    pyramid: (p) => <Pyramid {...p} />,
 }
 
 export default function App() {

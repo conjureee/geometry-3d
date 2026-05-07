@@ -28,7 +28,7 @@ function SpinningShape({ shapeId }) {
         cone: <coneGeometry args={[1, 1.8, 24]} />,
         cylinder: <cylinderGeometry args={[0.9, 0.9, 1.8, 24]} />,
         cuboid: <boxGeometry args={[1.6, 0.75, 0.75]} />,
-        prizm: <boxGeometry args={[0.75, 1.6, 0.75]} />,
+        prizm: <cylinderGeometry args={[0.9, 0.9, 1.8, 5]} />,
         pyramid: <coneGeometry args={[1, 1.8, 5]} />,
     }
 
