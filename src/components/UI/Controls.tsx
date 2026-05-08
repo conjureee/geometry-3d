@@ -38,19 +38,23 @@ const CONTROLS = {
 const OVERLAYS = {
     cube: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },
-        { key: 'showDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
+        { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,180,80,0.8)', default: false },
+        { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
     ],
     cuboid: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },
-        { key: 'showDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
+        { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,180,80,0.8)', default: false },
+        { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
     ],
     prizm: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },
-        { key: 'showDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
+        { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,180,80,0.8)', default: false },
+        { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
     ],
     pyramid: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },
-        { key: 'showDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
+        { key: 'showHeight', label: 'wysokość', color: 'rgba(80,255,120,0.8)', default: true },
+        { key: 'showBaseDiagonals', label: 'przekątne podstawy', color: 'rgba(255,80,80,0.8)', default: false },
     ],
     tetrahedron: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },
@@ -61,7 +65,6 @@ const OVERLAYS = {
         { key: 'showHeight', label: 'wysokość', color: 'rgba(80,255,120,0.8)', default: true },
     ],
     cylinder: [
-        { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },
         { key: 'showRadius', label: 'promień', color: 'rgba(255,200,50,0.8)', default: true },
         { key: 'showHeight', label: 'wysokość', color: 'rgba(80,255,120,0.8)', default: true },
     ],
@@ -84,11 +87,7 @@ export function getOverlayDefaults(shapeId) {
     return obj
 }
 
-export default function Controls({
-                                     activeShape, params, onChange,
-                                     overlays, onOverlayChange,
-                                     crossSection, onCrossSectionChange,
-                                 }) {
+export default function Controls({activeShape, params, onChange, overlays, onOverlayChange, crossSection, onCrossSectionChange}) {
     const controls = CONTROLS[activeShape] || []
     const overlayDefs = OVERLAYS[activeShape] || []
 

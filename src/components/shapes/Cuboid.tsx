@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import * as THREE from 'three'
 import ShapeWrapper from './ShapeWrapper'
 
-export default function Cuboid({width = 2, height = 2, depth = 2, color, showDiagonals, showEdges}) {
+export default function Cuboid({width = 2, height = 2, depth = 2, color, showFaceDiagonals, showBodyDiagonals, showEdges}) {
     const geo = useMemo(
         () => new THREE.BoxGeometry(width, height, depth),
         [width, height, depth]
@@ -11,7 +11,8 @@ export default function Cuboid({width = 2, height = 2, depth = 2, color, showDia
     return (
         <ShapeWrapper
             color={color}
-            showDiagonals={showDiagonals}
+            showFaceDiagonals={showFaceDiagonals}
+            showBodyDiagonals={showBodyDiagonals}
             showEdges={showEdges}
             geometry={geo}
         >

@@ -7,8 +7,6 @@ export default function Cylinder({
                                      height = 3,
                                      sides = 128,
                                      color,
-                                     showDiagonals,
-                                     showEdges,
                                      showRadius,
                                      showHeight,
                                  }) {
@@ -44,8 +42,6 @@ export default function Cylinder({
     return (
         <ShapeWrapper
             color={color}
-            showDiagonals={showDiagonals}
-            showEdges={showEdges}
             geometry={geo}
         >
             <primitive object={geo} attach="geometry" />

@@ -33,7 +33,7 @@ export default function App() {
     function handleShapeChange(id) {
         setActiveShape(id)
         setParams(getDefaults(id))
-        setOverlays(getOverlayDefaults(id))   // ← reset overlayów przy zmianie figury
+        setOverlays(getOverlayDefaults(id))
         setCrossSection({ enabled: false, plane: 'XY', position: 0 })
     }
 
