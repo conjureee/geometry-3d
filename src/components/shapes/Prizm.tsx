@@ -8,9 +8,11 @@ export default function Prizm({
                                   sides = 5,
                                   color,
                                   crossSection,
-                                  showDiagonals,
                                   showEdges,
-                              }) {
+                                  showBaseDiagonals,  // ← dodane
+                                  showFaceDiagonals,  // ← dodane
+                                  showBodyDiagonals,
+                              }){
     const geo = useMemo(
         () => new THREE.CylinderGeometry(radius, radius, height, sides),
         [radius, height, sides]
@@ -26,6 +28,11 @@ export default function Prizm({
 
         return pts
     }, [sides, radius])
+
+    const halfH = height / 2
+
+    const baseVerts = vertices.map(([x, z]) => new THREE.Vector3(x, -halfH, z))
+    const topVerts = vertices.map(([x, z]) => new THREE.Vector3(x, halfH, z))
 
     const crossGeometry = useMemo(() => {
         if (!crossSection?.enabled) return null
@@ -214,9 +221,11 @@ export default function Prizm({
         <>
             <ShapeWrapper
                 color={color}
-                showDiagonals={showDiagonals}
-                showEdges={showEdges}
                 geometry={geo}
+                showEdges={showEdges}
+                showBaseDiagonals={showBaseDiagonals}  // ← było true na stałe
+                showFaceDiagonals={showFaceDiagonals}  // ← było true na stałe
+                showBodyDiagonals={showBodyDiagonals}  // ← było true na stałe
             >
                 <primitive object={geo} attach="geometry" />
             </ShapeWrapper>

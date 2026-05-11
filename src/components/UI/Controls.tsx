@@ -31,7 +31,7 @@ const CONTROLS = {
     pyramid: [
         { key: 'radius', label: 'Promień podstawy', min: 0.5, max: 5, step: 0.1, default: 1.25 },
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
-        { key: 'sides',  label: 'Boki w podstawie', min: 3, max: 32, step: 1, default: 5 },
+        { key: 'sides',  label: 'Boki w podstawie', min: 3, max: 16, step: 1, default: 5 },
     ],
 }
 
@@ -47,9 +47,10 @@ const OVERLAYS = {
         { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
     ],
     prizm: [
-        { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },
-        { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,180,80,0.8)', default: false },
-        { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
+        { key: 'showEdges',         label: 'krawędzie ścian',    color: null, default: false },
+        { key: 'showBaseDiagonals', label: 'przekątne podstawy', color: 'rgba(255,80,80,0.8)', default: false },
+        { key: 'showFaceDiagonals', label: 'przekątne ścian',    color: 'rgba(255,170,50,0.8)', default: false },
+        { key: 'showBodyDiagonals', label: 'przekątne bryły',    color: 'rgba(200,7,7,0.9)', default: false },
     ],
     pyramid: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },

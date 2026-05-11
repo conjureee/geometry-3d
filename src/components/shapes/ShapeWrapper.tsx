@@ -5,176 +5,72 @@ import * as THREE from 'three'
 export default function ShapeWrapper({
                                          children,
                                          color = 'white',
-
-                                         showBodyDiagonals = false,
+                                         showEdges = false,
                                          showFaceDiagonals = false,
-
+                                         showBodyDiagonals = false,
                                          showBaseDiagonals = false,
                                          showHeight = false,
+                                         geometry,
+                                     }: {
+                                        children?: React.ReactNode
+                                        color?: string
+                                        showEdges?: boolean
+                                        showFaceDiagonals?: boolean
+                                        showBodyDiagonals?: boolean
+                                        showBaseDiagonals?: boolean
+                                        showHeight?: boolean
+                                        geometry?: THREE.BufferGeometry
+                                    }) {
 
-                                         showEdges = false,
-                                         geometry
-    }){
-    const edgesGeo = useMemo(() => {
-        if (!geometry || !showEdges) return null
-        return new THREE.EdgesGeometry(geometry)
-    }, [geometry, showEdges])
+    if (!geometry) return <>{children}</>
 
-    const bodyDiagonalLines = useMemo(() => {
-        if (!geometry || !showBodyDiagonals) return null
+    const edgesGeo = useMemo(() => showEdges ? new THREE.EdgesGeometry(geometry) : null, [geometry, showEdges])
 
+    const uniqueVerts = useMemo(() => {
         const pos = geometry.attributes.position
-        const vertices = []
-
+        const verts: THREE.Vector3[] = []
         for (let i = 0; i < pos.count; i++) {
-            vertices.push(
-                new THREE.Vector3(
-                    pos.getX(i),
-                    pos.getY(i),
-                    pos.getZ(i)
-                )
-            )
+            verts.push(new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i)))
         }
-
-        const unique = []
-        vertices.forEach(v => {
-            const exists = unique.some(u => u.distanceTo(v) < 0.001)
-            if (!exists) unique.push(v)
+        const unique: THREE.Vector3[] = []
+        verts.forEach(v => {
+            if (!unique.some(u => u.distanceTo(v) < 0.001)) unique.push(v)
         })
+        return unique
+    }, [geometry])
 
-        if (unique.length < 8) return null
-
-        const lines = [
-            unique[0], unique[6],
-            unique[1], unique[7],
-            unique[2], unique[4],
-            unique[3], unique[5],
-        ]
-
-        return new THREE.BufferGeometry().setFromPoints(lines)
-    }, [geometry, showBodyDiagonals])
-
-    const faceDiagonalLines = useMemo(() => {
-        if (!geometry || !showFaceDiagonals) return null
-
-        const pos = geometry.attributes.position
-        const vertices = []
-
-        for (let i = 0; i < pos.count; i++) {
-            vertices.push(
-                new THREE.Vector3(
-                    pos.getX(i),
-                    pos.getY(i),
-                    pos.getZ(i)
-                )
-            )
-        }
-
-        const unique = []
-        vertices.forEach(v => {
-            const exists = unique.some(u => u.distanceTo(v) < 0.001)
-            if (!exists) unique.push(v)
-        })
-
-        if (unique.length < 8) return null
-
-        const lines = [
-
-            unique[0], unique[3],
-            unique[1], unique[2],
-
-            unique[4], unique[7],
-            unique[5], unique[6],
-
-            unique[3], unique[7],
-            unique[2], unique[6],
-
-            unique[0], unique[4],
-            unique[1], unique[5],
-
-            unique[3], unique[4],
-            unique[1], unique[6],
-
-            unique[2], unique[5],
-            unique[7], unique[0],
-
-        ]
-
-        return new THREE.BufferGeometry().setFromPoints(lines)
-    }, [geometry, showFaceDiagonals])
-
-    const heightLine = useMemo(() => {
-        if (!geometry || !showHeight) return null
-
-        const pos = geometry.attributes.position
-
-        let minY = Infinity
-        let maxY = -Infinity
-
-        for (let i = 0; i < pos.count; i++) {
-            const y = pos.getY(i)
-
-            if (y < minY) minY = y
-            if (y > maxY) maxY = y
-        }
-
-        const points = [
-            new THREE.Vector3(0, minY, 0),
-            new THREE.Vector3(0, maxY, 0),
-        ]
-
-        return new THREE.BufferGeometry().setFromPoints(points)
-
-    }, [geometry, showHeight])
-
-    const baseDiagonalLines = useMemo(() => {
-        if (!geometry || !showBaseDiagonals) return null
-
-        const pos = geometry.attributes.position
-
-        const baseVerts = []
-
-        // ConeGeometry: pierwsze (sides + 1) punktów = podstawa
-        const sides = pos.count - (pos.count - pos.count % (pos.count - 1)) // fallback safe
-
-        // lepsze podejście: bierzemy pierwszy pierścień
-        const ringSize = Math.round(Math.sqrt(pos.count)) // fallback praktyczny
-
-        for (let i = 0; i < pos.count; i++) {
-            const v = new THREE.Vector3(
-                pos.getX(i),
-                pos.getY(i),
-                pos.getZ(i)
-            )
-
-            baseVerts.push(v)
-        }
-
-        // znajdź minimalne Y (podstawa stożka)
-        let minY = Infinity
-        baseVerts.forEach(v => {
-            if (v.y < minY) minY = v.y
-        })
-
-        const base = baseVerts.filter(v => Math.abs(v.y - minY) < 0.001)
-
-        const n = base.length
-        if (n < 4) return null
-
-        // centrum podstawy
+    const sortedByAngle = (verts: THREE.Vector3[]) => {
         const center = new THREE.Vector3()
-        base.forEach(v => center.add(v))
-        center.divideScalar(n)
-
-        // sort wokół środka (ważne!)
-        base.sort((a, b) =>
+        verts.forEach(v => center.add(v))
+        center.divideScalar(verts.length)
+        return [...verts].sort((a, b) =>
             Math.atan2(a.z - center.z, a.x - center.x) -
             Math.atan2(b.z - center.z, b.x - center.x)
         )
+    }
 
-        const points = []
+    const baseDiagonalLines = useMemo(() => {
+        if (!showBaseDiagonals) return null
 
-        // pełne przekątne wielokąta (bez boków)
+        const minY = Math.min(...uniqueVerts.map(v => v.y))
+
+        const rawBase = uniqueVerts.filter(
+            v => Math.abs(v.y - minY) < 0.001
+        )
+
+        const base = sortedByAngle(
+            rawBase.filter(v => {
+                const dist = Math.sqrt(v.x * v.x + v.z * v.z)
+                return dist > 0.001
+            })
+        )
+
+        const n = base.length
+
+        if (n < 4) return null
+
+        const pts: THREE.Vector3[] = []
+
         for (let i = 0; i < n; i++) {
             for (let j = i + 1; j < n; j++) {
 
@@ -182,15 +78,88 @@ export default function ShapeWrapper({
                     j === i + 1 ||
                     (i === 0 && j === n - 1)
 
-                if (!adjacent) {
-                    points.push(base[i], base[j])
-                }
+                if (adjacent) continue
+
+                pts.push(base[i], base[j])
             }
         }
 
-        return new THREE.BufferGeometry().setFromPoints(points)
+        return pts.length ? new THREE.BufferGeometry().setFromPoints(pts) : null
 
-    }, [geometry, showBaseDiagonals])
+    }, [uniqueVerts, showBaseDiagonals])
+
+    const faceDiagonalLines = useMemo(() => {
+        if (!showFaceDiagonals) return null
+
+        const minY = Math.min(...uniqueVerts.map(v => v.y))
+        const maxY = Math.max(...uniqueVerts.map(v => v.y))
+
+        const base = sortedByAngle(
+            uniqueVerts.filter(v => Math.abs(v.y - minY) < 0.001)
+        )
+
+        const top = sortedByAngle(
+            uniqueVerts.filter(v => Math.abs(v.y - maxY) < 0.001)
+        )
+
+        const n = base.length
+
+        if (n < 3 || top.length !== n) return null
+
+        const pts: THREE.Vector3[] = []
+
+        for (let i = 0; i < n; i++) {
+            const next = (i + 1) % n
+
+            pts.push(base[i], top[next])
+            pts.push(base[next], top[i])
+        }
+
+        if (n === 4) {
+            pts.push(top[0], top[2])
+            pts.push(top[1], top[3])
+
+            pts.push(base[0], base[2])
+            pts.push(base[1], base[3])
+        }
+
+        return pts.length
+            ? new THREE.BufferGeometry().setFromPoints(pts)
+            : null
+
+    }, [uniqueVerts, showFaceDiagonals])
+
+    const bodyDiagonalLines = useMemo(() => {
+        if (!showBodyDiagonals) return null
+        const minY = Math.min(...uniqueVerts.map(v => v.y))
+        const maxY = Math.max(...uniqueVerts.map(v => v.y))
+        const base = sortedByAngle(uniqueVerts.filter(v => Math.abs(v.y - minY) < 0.001))
+        const top  = sortedByAngle(uniqueVerts.filter(v => Math.abs(v.y - maxY) < 0.001))
+        const n = base.length
+        if (top.length !== n || n < 2) return null
+        const pts: THREE.Vector3[] = []
+        const step = Math.floor(n / 2)
+        for (let i = 0; i < n; i++) {
+            const j = (i + step) % n
+            pts.push(base[i], top[j])
+        }
+        return pts.length ? new THREE.BufferGeometry().setFromPoints(pts) : null
+    }, [uniqueVerts, showBodyDiagonals])
+
+    const heightLine = useMemo(() => {
+        if (!showHeight) return null
+        const pos = geometry.attributes.position
+        let minY = Infinity, maxY = -Infinity
+        for (let i = 0; i < pos.count; i++) {
+            const y = pos.getY(i)
+            if (y < minY) minY = y
+            if (y > maxY) maxY = y
+        }
+        return new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(0, minY, 0),
+            new THREE.Vector3(0, maxY, 0)
+        ])
+    }, [geometry, showHeight])
 
     return (
         <group>
@@ -200,52 +169,18 @@ export default function ShapeWrapper({
                     color={color}
                     emissive={color}
                     emissiveIntensity={0.2}
-                    transparent={true}
+                    transparent
                     opacity={0.25}
                     side={THREE.DoubleSide}
                     depthWrite={false}
                 />
             </mesh>
 
-            {showFaceDiagonals && faceDiagonalLines && (
-                <lineSegments geometry={faceDiagonalLines}>
-                    <lineBasicMaterial color="#ffaa33" />
-                </lineSegments>
-            )}
-
-            {showBodyDiagonals && bodyDiagonalLines && (
-                <lineSegments geometry={bodyDiagonalLines}>
-                    <lineBasicMaterial color="#C00707" />
-                </lineSegments>
-            )}
-
-            {showHeight && heightLine && (
-                <lineSegments geometry={heightLine}>
-                    <lineBasicMaterial
-                        color="#55ff88"
-                        depthTest={false}
-                    />
-                </lineSegments>
-            )}
-
-            {showBaseDiagonals && baseDiagonalLines && (
-                <lineSegments geometry={baseDiagonalLines}>
-                    <lineBasicMaterial
-                        color="#ff5555"
-                        depthTest={false}
-                    />
-                </lineSegments>
-            )}
-
-            {showEdges && edgesGeo && (
-                <lineSegments geometry={edgesGeo} renderOrder={2}>
-                    <lineBasicMaterial
-                        color={color}
-                        linewidth={1}
-                        depthTest={false}
-                    />
-                </lineSegments>
-            )}
+            {showEdges && edgesGeo && <lineSegments geometry={edgesGeo}><lineBasicMaterial color={color} /></lineSegments>}
+            {showFaceDiagonals && faceDiagonalLines && <lineSegments geometry={faceDiagonalLines}><lineBasicMaterial color="#ffaa33" /></lineSegments>}
+            {showBodyDiagonals && bodyDiagonalLines && <lineSegments geometry={bodyDiagonalLines}><lineBasicMaterial color="#C00707" /></lineSegments>}
+            {showHeight && heightLine && <lineSegments geometry={heightLine}><lineBasicMaterial color="#55ff88" /></lineSegments>}
+            {showBaseDiagonals && baseDiagonalLines && <lineSegments geometry={baseDiagonalLines}><lineBasicMaterial color="#ff5555" /></lineSegments>}
         </group>
     )
 }
