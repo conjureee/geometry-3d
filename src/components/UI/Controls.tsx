@@ -23,7 +23,7 @@ const CONTROLS = {
         { key: 'radius', label: 'Promień', min: 0.5, max: 5, step: 0.1, default: 0.9 },
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
     ],
-    prizm: [
+    prism: [
         { key: 'radius', label: 'Promień', min: 0.5, max: 5, step: 0.1, default: 1.25 },
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
         { key: 'sides',  label: 'Boki w podstawie', min: 3, max: 16, step: 1, default: 5 },
@@ -46,7 +46,7 @@ const OVERLAYS = {
         { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,180,80,0.8)', default: false },
         { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
     ],
-    prizm: [
+    prism: [
         { key: 'showEdges',         label: 'krawędzie ścian',    color: null, default: false },
         { key: 'showBaseDiagonals', label: 'przekątne podstawy', color: 'rgba(255,80,80,0.8)', default: false },
         { key: 'showFaceDiagonals', label: 'przekątne ścian',    color: 'rgba(255,170,50,0.8)', default: false },
@@ -89,20 +89,21 @@ export function getOverlayDefaults(shapeId) {
 }
 
 export default function Controls({activeShape, params, onChange, overlays, onOverlayChange, crossSection, onCrossSectionChange}) {
+
     const controls = CONTROLS[activeShape] || []
     const overlayDefs = OVERLAYS[activeShape] || []
 
     const [open, setOpen] = useState(true)
     const [csOpen, setCsOpen] = useState(true)
 
-    const showCrossSection = activeShape === 'prizm'
+    const showCrossSection = activeShape === 'prism'
 
     const radius = params?.radius ?? 1.25
     const height = params?.height ?? 2.5
     const sides  = params?.sides  ?? 5
 
     const { posMin, posMax } = (() => {
-        if (!crossSection?.plane || activeShape !== 'prizm') return { posMin: -radius, posMax: radius }
+        if (!crossSection?.plane || activeShape !== 'prism') return { posMin: -radius, posMax: radius }
         if (crossSection.plane === 'XZ') return { posMin: -(height / 2), posMax: height / 2 }
         const xs = [], zs = []
         for (let i = 0; i < sides; i++) {
@@ -124,7 +125,7 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
                 </svg>
             </div>
 
-            {open && (
+            <div className={`controls-body-wrapper ${open ? "open" : ""}`}>
                 <div className="controls-body">
                     {controls.map(ctrl => (
                         <div key={ctrl.key} className="control-row">
@@ -159,7 +160,7 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
                         </label>
                     ))}
                 </div>
-            )}
+            </div>
 
             {showCrossSection && crossSection && (
                 <>

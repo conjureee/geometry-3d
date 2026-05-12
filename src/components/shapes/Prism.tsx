@@ -2,15 +2,15 @@ import * as THREE from 'three'
 import { useMemo } from 'react'
 import ShapeWrapper from './ShapeWrapper'
 
-export default function Prizm({
+export default function Prism({
                                   radius = 1,
                                   height = 2.5,
                                   sides = 5,
                                   color,
                                   crossSection,
                                   showEdges,
-                                  showBaseDiagonals,  // ← dodane
-                                  showFaceDiagonals,  // ← dodane
+                                  showBaseDiagonals,
+                                  showFaceDiagonals,
                                   showBodyDiagonals,
                               }){
     const geo = useMemo(
@@ -223,9 +223,9 @@ export default function Prizm({
                 color={color}
                 geometry={geo}
                 showEdges={showEdges}
-                showBaseDiagonals={showBaseDiagonals}  // ← było true na stałe
-                showFaceDiagonals={showFaceDiagonals}  // ← było true na stałe
-                showBodyDiagonals={showBodyDiagonals}  // ← było true na stałe
+                showBaseDiagonals={showBaseDiagonals}
+                showFaceDiagonals={showFaceDiagonals}
+                showBodyDiagonals={showBodyDiagonals}
             >
                 <primitive object={geo} attach="geometry" />
             </ShapeWrapper>

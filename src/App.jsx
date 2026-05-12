@@ -1,15 +1,18 @@
 import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
+import "katex/dist/katex.min.css"
 import { OrbitControls, GizmoHelper, GizmoViewport } from '@react-three/drei'
 import Sidebar from './components/UI/Sidebar'
 import Controls, { getDefaults, getOverlayDefaults } from './components/UI/Controls'
+import ShapeInfoPanel from './components/UI/Information'
+import { solids } from './components/data/solids'
 import Tetrahedron from './components/shapes/Tetrahedron'
 import Cube from './components/shapes/Cube'
 import Sphere from './components/shapes/Sphere'
 import Cone from './components/shapes/Cone'
 import Cylinder from './components/shapes/Cylinder'
 import Cuboid from './components/shapes/Cuboid'
-import Prizm from './components/shapes/Prizm'
+import Prism from './components/shapes/Prism'
 import Pyramid from './components/shapes/Pyramid'
 
 const shapeMap = {
@@ -19,7 +22,7 @@ const shapeMap = {
     cone:        (p) => <Cone {...p} />,
     cylinder:    (p) => <Cylinder {...p} />,
     cuboid:      (p) => <Cuboid {...p} />,
-    prizm:       (p) => <Prizm {...p} />,
+    prism:       (p) => <Prism {...p} />,
     pyramid:     (p) => <Pyramid {...p} />,
 }
 
@@ -52,6 +55,7 @@ export default function App() {
     return (
         <div className="screen">
             <Sidebar activeShape={activeShape} onShapeChange={handleShapeChange} />
+            <ShapeInfoPanel shapeData={solids[activeShape]} />
             <Controls
                 activeShape={activeShape}
                 params={params}

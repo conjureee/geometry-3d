@@ -108,9 +108,10 @@ body {
     transform: rotate(180deg);
 }
 
-.controls-panel {
+/* CONTROLS */
+
+.controls-panel, .information-panel {
     position: fixed;
-    right: 20px;
     top: 50%;
     transform: translateY(-50%);
     width: 220px;
@@ -120,6 +121,13 @@ body {
     backdrop-filter: blur(12px);
     z-index: 90;
     overflow: hidden;
+}
+
+.controls-panel { right: 20px; }
+
+.information-panel {
+    left: 20px;
+    width: 350px;
 }
 
 .controls-header {
@@ -144,6 +152,18 @@ body {
     display: flex;
     flex-direction: column;
     gap: 18px;
+}
+
+.controls-body-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+}
+
+.controls-body-wrapper.open {
+    max-height: 800px; /* wystarczająco duże, żeby pomieścić treść */
+    opacity: 1;
 }
 
 .control-row {

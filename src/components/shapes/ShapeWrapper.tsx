@@ -94,6 +94,47 @@ export default function ShapeWrapper({
         const minY = Math.min(...uniqueVerts.map(v => v.y))
         const maxY = Math.max(...uniqueVerts.map(v => v.y))
 
+        const base = sortedByAngle(uniqueVerts.filter(v => Math.abs(v.y - minY) < 0.001))
+        const rawTop = uniqueVerts.filter(v => Math.abs(v.y - maxY) < 0.001)
+        const n = base.length
+
+        if (n < 3 || rawTop.length !== n) return null
+
+        const top = base.map(b => {
+            let closest = rawTop[0]
+            let minDist = Infinity
+            rawTop.forEach(t => {
+                const d = Math.hypot(t.x - b.x, t.z - b.z)
+                if (d < minDist) { minDist = d; closest = t }
+            })
+            return closest
+        })
+
+        const pts: THREE.Vector3[] = []
+
+        for (let i = 0; i < n; i++) {
+            const next = (i + 1) % n
+            pts.push(base[i],    top[next])
+            pts.push(base[next], top[i])
+        }
+
+        if (n === 4) {
+            pts.push(top[0],  top[2])
+            pts.push(top[1],  top[3])
+            pts.push(base[0], base[2])
+            pts.push(base[1], base[3])
+        }
+
+        return pts.length ? new THREE.BufferGeometry().setFromPoints(pts) : null
+
+    }, [uniqueVerts, showFaceDiagonals])
+
+    const bodyDiagonalLines = useMemo(() => {
+        if (!showBodyDiagonals) return null
+
+        const minY = Math.min(...uniqueVerts.map(v => v.y))
+        const maxY = Math.max(...uniqueVerts.map(v => v.y))
+
         const base = sortedByAngle(
             uniqueVerts.filter(v => Math.abs(v.y - minY) < 0.001)
         )
@@ -104,46 +145,25 @@ export default function ShapeWrapper({
 
         const n = base.length
 
-        if (n < 3 || top.length !== n) return null
+        // trojkatny graniastoslup nie ma przekatnych bryly
+        if (top.length !== n || n < 4) return null
 
         const pts: THREE.Vector3[] = []
 
         for (let i = 0; i < n; i++) {
-            const next = (i + 1) % n
 
-            pts.push(base[i], top[next])
-            pts.push(base[next], top[i])
-        }
+            for (let offset = 2; offset <= n - 2; offset++) {
 
-        if (n === 4) {
-            pts.push(top[0], top[2])
-            pts.push(top[1], top[3])
+                const j = (i + offset) % n
 
-            pts.push(base[0], base[2])
-            pts.push(base[1], base[3])
+                pts.push(base[i], top[j])
+            }
         }
 
         return pts.length
             ? new THREE.BufferGeometry().setFromPoints(pts)
             : null
 
-    }, [uniqueVerts, showFaceDiagonals])
-
-    const bodyDiagonalLines = useMemo(() => {
-        if (!showBodyDiagonals) return null
-        const minY = Math.min(...uniqueVerts.map(v => v.y))
-        const maxY = Math.max(...uniqueVerts.map(v => v.y))
-        const base = sortedByAngle(uniqueVerts.filter(v => Math.abs(v.y - minY) < 0.001))
-        const top  = sortedByAngle(uniqueVerts.filter(v => Math.abs(v.y - maxY) < 0.001))
-        const n = base.length
-        if (top.length !== n || n < 2) return null
-        const pts: THREE.Vector3[] = []
-        const step = Math.floor(n / 2)
-        for (let i = 0; i < n; i++) {
-            const j = (i + step) % n
-            pts.push(base[i], top[j])
-        }
-        return pts.length ? new THREE.BufferGeometry().setFromPoints(pts) : null
     }, [uniqueVerts, showBodyDiagonals])
 
     const heightLine = useMemo(() => {
