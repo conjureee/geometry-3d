@@ -145,7 +145,6 @@ export default function ShapeWrapper({
 
         const n = base.length
 
-        // trojkatny graniastoslup nie ma przekatnych bryly
         if (top.length !== n || n < 4) return null
 
         const pts: THREE.Vector3[] = []

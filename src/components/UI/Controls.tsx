@@ -37,28 +37,28 @@ const CONTROLS = {
 
 const OVERLAYS = {
     cube: [
-        { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },
+        { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
         { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,180,80,0.8)', default: false },
         { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
     ],
     cuboid: [
-        { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },
+        { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
         { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,180,80,0.8)', default: false },
         { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
     ],
     prism: [
-        { key: 'showEdges',         label: 'krawędzie ścian',    color: null, default: false },
+        { key: 'showEdges',         label: 'krawędzie ścian',    color: null, default: true },
         { key: 'showBaseDiagonals', label: 'przekątne podstawy', color: 'rgba(255,80,80,0.8)', default: false },
         { key: 'showFaceDiagonals', label: 'przekątne ścian',    color: 'rgba(255,170,50,0.8)', default: false },
         { key: 'showBodyDiagonals', label: 'przekątne bryły',    color: 'rgba(200,7,7,0.9)', default: false },
     ],
     pyramid: [
-        { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },
+        { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
         { key: 'showHeight', label: 'wysokość', color: 'rgba(80,255,120,0.8)', default: true },
         { key: 'showBaseDiagonals', label: 'przekątne podstawy', color: 'rgba(255,80,80,0.8)', default: false },
     ],
     tetrahedron: [
-        { key: 'showEdges', label: 'krawędzie ścian', color: null, default: false },
+        { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
         { key: 'showHeight', label: 'wysokość', color: 'rgba(80,255,120,0.8)', default: true },
     ],
     cone: [

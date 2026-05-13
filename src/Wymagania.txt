@@ -1,6 +1,12 @@
-- Przekątne (Maksym)
-- Kąty (nachylenie ściany bocznej do płaszczyzny przekątnej)
 - Przekroje (sześcianu i ostrosłupa) (Dawid)
 - Stożek i Walec animacja tworzenia z trójkąta (Maksym)
-
 - Stożek pochyły (Maksym)
+- Kąty (nachylenie ściany bocznej do płaszczyzny przekątnej)
+
+/////////
+
+TODO:
+1. ANIMACJA PŁYNNEGO POJAWIANIA SIĘ PRZYCISKÓW ANIMACJI
+2. PONAPRAWIAĆ BY NIE BYŁO NA CZERWONO
+3. NAPRAWIĆ PRZEKĄTNE BRYŁY I ŚCIAN W GRANIASTOSŁUPIE
+4. NADAĆ ANIMACJĘ PŁYNNEGO ZWIJANIA I ROZWIJANIA DO SEKCJI Z PRZEKROJAMI
