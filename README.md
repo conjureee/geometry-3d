@@ -1,16 +1,170 @@
-# React + Vite
+# 📐 Geometry 3D — Interaktywna Nauka Brył
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Opis Projektu
 
-Currently, two official plugins are available:
+Geometry 3D to aplikacja stworzona w React, której celem jest wspieranie uczniów oraz nauczycieli w nauce geometrii przestrzennej i brył 3D w nowoczesny oraz interaktywny sposób.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Program umożliwia wyświetlanie różnych brył geometrycznych w przestrzeni 3D, manipulowanie ich wymiarami, analizowanie przekrojów oraz poznawanie najważniejszych informacji teoretycznych dotyczących każdej figury.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# ✨ Główne Funkcje
 
-## Expanding the ESLint configuration
+## 🧊 Wyświetlanie Brył 3D
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+W centralnej części ekranu znajduje się interaktywna bryła 3D.  
+Użytkownik może ją obracać, przesuwać, analizować oraz dynamicznie zmieniać jej parametry.
+
+---
+
+## 📂 Menu Wyboru Brył
+
+Na górze aplikacji znajduje się menu umożliwiające szybkie przełączanie pomiędzy różnymi bryłami geometrycznymi, takimi jak:
+
+- walec
+- stożek
+- sześcian
+- prostopadłościan
+- graniastosłup
+- ostrosłup
+- kula
+- czworościan
+
+Każda bryła posiada własny zestaw funkcji oraz dedykowane opcje sterowania.
+
+---
+
+# 🎛️ Panel Controls
+
+Po prawej stronie ekranu znajduje się panel **Controls**, który pozwala na zarządzanie aktualnie wybraną bryłą.
+
+W zależności od figury użytkownik może:
+
+## 🔍 Wyświetlać Elementy Bryły
+
+- krawędzie
+- wysokość
+- przekątne
+- podstawy
+- osie
+- inne elementy pomocnicze
+
+---
+
+## 📏 Zmieniać Wymiary Bryły
+
+Możliwe jest dynamiczne regulowanie parametrów takich jak:
+
+- rozmiar
+- wysokość
+- głębokość
+- szerokość
+- promień
+
+Zmiany są widoczne w czasie rzeczywistym na modelu 3D.
+
+---
+
+## ✂️ Przekroje Brył
+
+Dla wybranych figur, takich jak graniastosłupy, dostępna jest opcja wyświetlania przekrojów.
+
+Użytkownik może wybrać przekrój względem osi:
+
+- XY
+- XZ
+- YZ
+
+---
+
+# 📖 Panel Informacje
+
+Po lewej stronie aplikacji znajduje się rozwijane menu **Informacje**.
+
+Dla każdej bryły użytkownik może znaleźć tam:
+
+## 📝 Opis
+
+Krótki opis danej bryły geometrycznej.
+
+---
+
+## 📚 Właściwości
+
+Najważniejsze cechy i charakterystyki figury.
+
+---
+
+## 🧮 Wzory
+
+Wzory matematyczne związane z bryłą, między innymi:
+
+- pole powierzchni
+- objętość
+- długości przekątnych
+- inne zależności geometryczne
+
+---
+
+## 📐 Wymiary
+
+Opis poszczególnych wymiarów i parametrów bryły.
+
+---
+
+## 💡 Ciekawostki
+
+Dodatkowe informacje i ciekawostki pomagające lepiej zapamiętać materiał.
+
+---
+
+# 🎞️ Animacje Tworzenia Brył
+
+W menu wyboru brył dostępna jest dodatkowa funkcja animacji.
+
+Po najechaniu na miniaturkę wybranej bryły (np. stożka lub walca) użytkownik może uruchomić animację pokazującą proces tworzenia bryły od podstaw.
+
+Animacje można odtwarzać wielokrotnie.
+
+---
+
+# 🎯 Cel Projektu
+
+Projekt został stworzony z myślą o:
+
+- uczniach uczących się geometrii przestrzennej,
+- nauczycielach prowadzących lekcje matematyki,
+- osobach chcących lepiej zrozumieć bryły geometryczne w praktyce.
+
+Aplikacja łączy naukę z interaktywną wizualizacją 3D, dzięki czemu geometria staje się bardziej intuicyjna i łatwiejsza do zrozumienia.
+
+---
+
+# ⚙️ Technologie
+
+Projekt został wykonany przy użyciu:
+
+- React
+- JavaScript / TypeScript
+- Three.js / React Three Fiber
+- CSS
+
+---
+
+# 🚀 Możliwości Rozwoju
+
+Planowane funkcje:
+
+- więcej brył geometrycznych,
+- dodatkowe animacje edukacyjne,
+- tryb nauki dla uczniów,
+- quizy i zadania,
+- zapisywanie ustawień użytkownika,
+- eksport modeli 3D.
+
+---
+
+# 👨‍💻 Autorzy
+
+- Maksym Demchenko
+- Dawid Gronowski (Przekroje brył)
