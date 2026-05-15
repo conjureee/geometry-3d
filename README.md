@@ -17,7 +17,7 @@ Użytkownik może ją obracać, przesuwać, analizować oraz dynamicznie zmienia
 
 ---
 
-## 📂 Menu Wyboru Brył
+### 📂 Menu Wyboru Brył
 
 Na górze aplikacji znajduje się menu umożliwiające szybkie przełączanie pomiędzy różnymi bryłami geometrycznymi, takimi jak:
 
@@ -40,7 +40,7 @@ Po prawej stronie ekranu znajduje się panel **Controls**, który pozwala na zar
 
 W zależności od figury użytkownik może:
 
-## 🔍 Wyświetlać Elementy Bryły
+### 🔍 Wyświetlać Elementy Bryły
 
 - krawędzie
 - wysokość
@@ -51,7 +51,7 @@ W zależności od figury użytkownik może:
 
 ---
 
-## 📏 Zmieniać Wymiary Bryły
+### 📏 Zmieniać Wymiary Bryły
 
 Możliwe jest dynamiczne regulowanie parametrów takich jak:
 
@@ -65,7 +65,7 @@ Zmiany są widoczne w czasie rzeczywistym na modelu 3D.
 
 ---
 
-## ✂️ Przekroje Brył
+### ✂️ Przekroje Brył
 
 Dla wybranych figur, takich jak graniastosłupy, dostępna jest opcja wyświetlania przekrojów.
 
@@ -83,19 +83,19 @@ Po lewej stronie aplikacji znajduje się rozwijane menu **Informacje**.
 
 Dla każdej bryły użytkownik może znaleźć tam:
 
-## 📝 Opis
+### 📝 Opis
 
 Krótki opis danej bryły geometrycznej.
 
 ---
 
-## 📚 Właściwości
+### 📚 Właściwości
 
 Najważniejsze cechy i charakterystyki figury.
 
 ---
 
-## 🧮 Wzory
+### 🧮 Wzory
 
 Wzory matematyczne związane z bryłą, między innymi:
 
@@ -106,7 +106,7 @@ Wzory matematyczne związane z bryłą, między innymi:
 
 ---
 
-## 📐 Wymiary
+### 📐 Wymiary
 
 Opis poszczególnych wymiarów i parametrów bryły.
 
