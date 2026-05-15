@@ -66,7 +66,7 @@ const OVERLAYS = {
         { key: 'showHeight', label: 'wysokość', color: 'rgba(80,255,120,0.8)', default: true },
     ],
     cylinder: [
-        { key: 'showRadius', label: 'promień', color: 'rgba(255,200,50,0.8)', default: true },
+        { key: 'showRadius', label: 'promień podstawy', color: 'rgba(255,200,50,0.8)', default: true },
         { key: 'showHeight', label: 'wysokość', color: 'rgba(80,255,120,0.8)', default: true },
     ],
     sphere: [
