@@ -87,13 +87,9 @@ Dla każdej bryły użytkownik może znaleźć tam:
 
 Krótki opis danej bryły geometrycznej.
 
----
-
 ### 📚 Właściwości
 
 Najważniejsze cechy i charakterystyki figury.
-
----
 
 ### 🧮 Wzory
 
@@ -104,13 +100,9 @@ Wzory matematyczne związane z bryłą, między innymi:
 - długości przekątnych
 - inne zależności geometryczne
 
----
-
 ### 📐 Wymiary
 
 Opis poszczególnych wymiarów i parametrów bryły.
-
----
 
 ## 💡 Ciekawostki
 
@@ -136,7 +128,7 @@ Projekt został stworzony z myślą o:
 - nauczycielach prowadzących lekcje matematyki,
 - osobach chcących lepiej zrozumieć bryły geometryczne w praktyce.
 
-Aplikacja łączy naukę z interaktywną wizualizacją 3D, dzięki czemu geometria staje się bardziej intuicyjna i łatwiejsza do zrozumienia.
+Aplikacja łączy naukę z interaktywną wizualizacją 3D, dzięki czemu ta aplikacja realnie może pomóc uczniom w nauce.
 
 ---
 
@@ -148,23 +140,23 @@ Projekt został wykonany przy użyciu:
 - JavaScript / TypeScript
 - Three.js / React Three Fiber
 - CSS
+- KaTeX JavaScript 
 
 ---
 
 # 🚀 Możliwości Rozwoju
 
-Planowane funkcje:
+Planowane ulepszenia:
 
-- więcej brył geometrycznych,
 - dodatkowe animacje edukacyjne,
-- tryb nauki dla uczniów,
 - quizy i zadania,
 - zapisywanie ustawień użytkownika,
-- eksport modeli 3D.
 
 ---
 
 # 👨‍💻 Autorzy
 
-- Maksym Demchenko
-- Dawid Gronowski (Przekroje brył)
+| Autor | Zakres prac |
+|---|---|
+| MD | UI aplikacji, modele brył 3D, controls, animacje, panel informacji, logika projektu, dokumentacja |
+| DG | Implementacja przekrojów brył |
