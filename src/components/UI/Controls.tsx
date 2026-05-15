@@ -26,12 +26,12 @@ const CONTROLS = {
     prism: [
         { key: 'radius', label: 'Promień', min: 0.5, max: 5, step: 0.1, default: 1.25 },
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
-        { key: 'sides',  label: 'Boki w podstawie', min: 3, max: 16, step: 1, default: 5 },
+        { key: 'sides',  label: 'Boki w podstawie', min: 3, max: 32, step: 1, default: 5 },
     ],
     pyramid: [
         { key: 'radius', label: 'Promień podstawy', min: 0.5, max: 5, step: 0.1, default: 1.25 },
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
-        { key: 'sides',  label: 'Boki w podstawie', min: 3, max: 16, step: 1, default: 5 },
+        { key: 'sides',  label: 'Boki w podstawie', min: 3, max: 32, step: 1, default: 5 },
     ],
 }
 
@@ -172,7 +172,7 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
                         </svg>
                     </div>
 
-                    {csOpen && (
+                    <div className={`controls-body-wrapper ${csOpen ? "open" : ""}`}>
                         <div className="controls-body">
                             <div className="control-row">
                                 <label className="toggle-row">
@@ -210,7 +210,7 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
                                 </>
                             )}
                         </div>
-                    )}
+                    </div>
                 </>
             )}
         </div>

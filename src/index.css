@@ -148,13 +148,6 @@ body {
     font-weight: 500;
 }
 
-.controls-body {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
 .controls-body-wrapper {
     max-height: 0;
     overflow: hidden;
@@ -163,8 +156,15 @@ body {
 }
 
 .controls-body-wrapper.open {
-    max-height: 800px; /* wystarczająco duże, żeby pomieścić treść */
+    max-height: 800px;
     opacity: 1;
+}
+
+.controls-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
 .control-row {
@@ -371,30 +371,19 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
     width: 36px;
     height: 36px;
-
     border-radius: 50%;
     background: rgba(13, 13, 28, 0.85);
     border: 1px solid rgba(79, 142, 247, 0.6);
-
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-
     z-index: 10;
-
     opacity: 0;
-
-    /* 👇 ważne: NIE wyłączamy od razu klików */
-    pointer-events: auto;
-
-    transition:
-            opacity 0.35s ease,
-            background 0.3s ease,
-            border-color 0.3s ease;
+    pointer-events: none;
+    transition: opacity 0.35s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
 .figure-play-btn:hover {
@@ -402,8 +391,9 @@ body {
     border-color: rgba(79, 142, 247, 1);
 }
 
-.figure-card:hover .figure-play-btn {
+.figure-background:hover .figure-play-btn {
     opacity: 1;
+    pointer-events: auto;
 }
 
 /* ANIMATION POP UP */
