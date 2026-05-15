@@ -8,7 +8,7 @@ export const pyramidData = {
 
     properties: {
         "Liczba podstaw": 1,
-        "Powierzchnia krzywoliniowa": false
+        "Powierzchnia": "Płaska"
     },
 
     formulas: {

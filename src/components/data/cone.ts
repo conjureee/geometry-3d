@@ -8,7 +8,7 @@ export const coneData = {
 
     properties: {
         "Liczba podstaw": 1,
-        "Powierzchnia krzywoliniowa": true
+        "Powierzchnia boczna": "Krzywoliniowa (Niepłaska)",
     },
 
     formulas: {

@@ -7,7 +7,7 @@ export const sphereData = {
         "Kula to bryła obrotowa powstająca przez obrót półokręgu wokół jego średnicy.",
 
     properties: {
-        "Powierzchnia krzywoliniowa": true,
+        "Powierzchnia": "Krzywoliniowa (Niepłaska)",
         "Liczba krawędzi": 0,
         "Liczba wierzchołków": 0
     },

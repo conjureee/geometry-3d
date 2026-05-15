@@ -8,7 +8,7 @@ export const cylinderData = {
 
     properties: {
         "Liczba podstaw": 2,
-        "Powierzchnia krzywoliniowa": true
+        "Powierzchnia boczna": "Krzywoliniowa (Niepłaska)",
     },
 
     formulas: {
