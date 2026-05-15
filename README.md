@@ -10,7 +10,7 @@ Program umożliwia wyświetlanie różnych brył geometrycznych w przestrzeni 3D
 
 # ✨ Główne Funkcje
 
-## 🧊 Wyświetlanie Brył 3D
+### 🧊 Wyświetlanie Brył 3D
 
 W centralnej części ekranu znajduje się interaktywna bryła 3D.  
 Użytkownik może ją obracać, przesuwać, analizować oraz dynamicznie zmieniać jej parametry.
