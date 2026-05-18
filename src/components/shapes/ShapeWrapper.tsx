@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-import { useMemo } from 'react'
+import {use, useMemo} from 'react'
 import * as THREE from 'three'
 
 export default function ShapeWrapper({
@@ -10,6 +10,7 @@ export default function ShapeWrapper({
                                          showBodyDiagonals = false,
                                          showBaseDiagonals = false,
                                          showHeight = false,
+                                         showInclined = false,
                                          geometry,
                                      }: {
                                         children?: React.ReactNode
@@ -19,12 +20,45 @@ export default function ShapeWrapper({
                                         showBodyDiagonals?: boolean
                                         showBaseDiagonals?: boolean
                                         showHeight?: boolean
+                                        showInclined?: boolean
                                         geometry?: THREE.BufferGeometry
                                     }) {
 
     if (!geometry) return <>{children}</>
 
-    const edgesGeo = useMemo(() => showEdges ? new THREE.EdgesGeometry(geometry) : null, [geometry, showEdges])
+    const inclinedGeometry = useMemo(() => {
+        if (!showInclined) return geometry
+
+        const cloned = geometry.clone()
+        const pos = cloned.attributes.position
+
+        let maxY = -Infinity
+
+        for (let i = 0; i < pos.count; i++) {
+            const y = pos.getY(i)
+            if (y > maxY) maxY = y
+        }
+
+        for (let i = 0; i < pos.count; i++) {
+            const y = pos.getY(i)
+
+            if (Math.abs(y - maxY) < 0.001) {
+                pos.setX(i, pos.getX(i) + 0.8)
+            }
+        }
+
+        pos.needsUpdate = true
+        cloned.computeVertexNormals()
+
+        return cloned
+    }, [geometry, showInclined])
+
+    const edgesGeo = useMemo(
+        () => showEdges
+            ? new THREE.EdgesGeometry(inclinedGeometry)
+            : null,
+        [inclinedGeometry, showEdges]
+    )
 
     const uniqueVerts = useMemo(() => {
         const pos = geometry.attributes.position
@@ -182,7 +216,7 @@ export default function ShapeWrapper({
 
     return (
         <group>
-            <mesh>
+            <mesh geometry={inclinedGeometry}>
                 {children}
                 <meshStandardMaterial
                     color={color}

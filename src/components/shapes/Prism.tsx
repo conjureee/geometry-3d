@@ -12,6 +12,7 @@ export default function Prism({
                                   showBaseDiagonals,
                                   showFaceDiagonals,
                                   showBodyDiagonals,
+                                  showInclined
                               }){
     const geo = useMemo(
         () => new THREE.CylinderGeometry(radius, radius, height, sides),
@@ -226,9 +227,8 @@ export default function Prism({
                 showBaseDiagonals={showBaseDiagonals}
                 showFaceDiagonals={showFaceDiagonals}
                 showBodyDiagonals={showBodyDiagonals}
-            >
-                <primitive object={geo} attach="geometry" />
-            </ShapeWrapper>
+                showInclined={showInclined}
+            />
 
             {crossSection?.enabled && crossGeometry && (
                 <mesh geometry={crossGeometry}>

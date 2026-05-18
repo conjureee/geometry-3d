@@ -51,11 +51,13 @@ const OVERLAYS = {
         { key: 'showBaseDiagonals', label: 'przekątne podstawy', color: 'rgba(255,80,80,0.8)', default: false },
         { key: 'showFaceDiagonals', label: 'przekątne ścian',    color: 'rgba(255,170,50,0.8)', default: false },
         { key: 'showBodyDiagonals', label: 'przekątne bryły',    color: 'rgba(200,7,7,0.9)', default: false },
+        { key: 'showInclined', label: 'ostrosłup pochylony', default: false }
     ],
     pyramid: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
         { key: 'showHeight', label: 'wysokość', color: 'rgba(80,255,120,0.8)', default: true },
         { key: 'showBaseDiagonals', label: 'przekątne podstawy', color: 'rgba(255,80,80,0.8)', default: false },
+        { key: 'showInclined', label: 'ostrosłup pochylony', default: false }
     ],
     tetrahedron: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
