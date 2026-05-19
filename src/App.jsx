@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import "katex/dist/katex.min.css"
-import { OrbitControls, GizmoHelper, GizmoViewport } from '@react-three/drei'
+import { OrbitControls } from '@react-three/drei'
 import Sidebar from './components/UI/Sidebar'
 import Controls, { getDefaults, getOverlayDefaults } from './components/UI/Controls'
 import ShapeInfoPanel from './components/UI/Information'
+import HelpButton from './components/UI/HelpButton'
 import { solids } from './components/data/solids'
 import Tetrahedron from './components/shapes/Tetrahedron'
 import Cube from './components/shapes/Cube'
@@ -56,6 +57,7 @@ export default function App() {
         <div className="screen">
             <Sidebar activeShape={activeShape} onShapeChange={handleShapeChange} />
             <ShapeInfoPanel shapeData={solids[activeShape]} />
+            <HelpButton />
             <Controls
                 activeShape={activeShape}
                 params={params}
@@ -71,9 +73,6 @@ export default function App() {
                 <directionalLight position={[-5, 2, -5]} intensity={0.3} />
                 {shapeMap[activeShape]?.({ ...params, color, ...overlays, crossSection })}
                 <OrbitControls />
-                <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-                    <GizmoViewport />
-                </GizmoHelper>
             </Canvas>
         </div>
     )

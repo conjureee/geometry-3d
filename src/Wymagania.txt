@@ -3,6 +3,14 @@
 - Kąty (nachylenie ściany bocznej do płaszczyzny przekątnej)
 - Media queries :///
 
+- Przekątne tylko jednej ściany/bryły w prostopadłościanie i sześcianie
+- Instrukcja obsługi na stronie
+- Animacja postawania kuli - kole i półkole
+- Walec + stożek animacja według dłuższego i krótszego boku
+- Wysokości ścian bocznych i podstawy
+- Zadania jeśli czas będzie
+- Wszystkie przekątne sześcianu
+
 /////////
 
 TODO:

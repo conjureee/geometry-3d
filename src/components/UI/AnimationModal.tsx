@@ -2,20 +2,42 @@ import { useState, useEffect, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import ConeAnimation from '../animations/ConeAnimation'
 import CylinderAnimation from '../animations/CylinderAnimation'
+import SphereAnimation from '../animations/SphereAnimation'
 
 const TITLES = {
     cone: 'Stożek z trójkąta',
     cylinder: 'Walec z prostokąta',
+    sphere: 'Kula z koła'
 }
 
 const ANIMATION_MAP = {
     cone: ConeAnimation,
     cylinder: CylinderAnimation,
+    sphere: SphereAnimation,
+}
+
+const MODE_OPTIONS = {
+    cylinder: [
+        { value: 'short', label: 'Krótszy bok' },
+        { value: 'long', label: 'Dłuższy bok' },
+    ],
+
+    cone: [
+        { value: 'short', label: 'Krótszy bok' },
+        { value: 'long', label: 'Dłuższy bok' },
+    ],
+
+    sphere: [
+        { value: 'circle', label: 'Koło' },
+        { value: 'semicircle', label: 'Półkole' },
+    ],
 }
 
 const CLOSE_ANIM_TIME = 250
 
 export default function AnimationModal({ shapeId, onClose }) {
+    const [mode, setMode] = useState('short')
+
     const [progress, setProgress] = useState(0)
     const [playing, setPlaying] = useState(false)
 
@@ -26,12 +48,10 @@ export default function AnimationModal({ shapeId, onClose }) {
     const lastRef = useRef(null)
     const DURATION = 3000
 
-    // 👉 wejście animacja
     useEffect(() => {
         requestAnimationFrame(() => setShow(true))
     }, [])
 
-    // 👉 animacja progressu
     useEffect(() => {
         if (playing) {
             lastRef.current = performance.now() - progress * DURATION
@@ -54,6 +74,14 @@ export default function AnimationModal({ shapeId, onClose }) {
 
         return () => cancelAnimationFrame(rafRef.current)
     }, [playing])
+
+    useEffect(() => {
+        const firstMode = MODE_OPTIONS[shapeId]?.[0]?.value
+
+        if (firstMode) {
+            setMode(firstMode)
+        }
+    }, [shapeId])
 
     function handlePlayPause() {
         if (progress >= 1) {
@@ -110,7 +138,12 @@ export default function AnimationModal({ shapeId, onClose }) {
                     <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
                         <ambientLight intensity={0.4} />
                         <directionalLight position={[5, 5, 5]} intensity={1} />
-                        {AnimComponent && <AnimComponent progress={progress} />}
+                        {AnimComponent && (
+                            <AnimComponent
+                                progress={progress}
+                                mode={mode}
+                            />
+                        )}
                     </Canvas>
                 </div>
 
@@ -159,6 +192,22 @@ export default function AnimationModal({ shapeId, onClose }) {
                     <span className="progress-text">
                         {Math.round(progress * 100)}%
                     </span>
+
+                    <div className="mode-switch">
+
+                        {MODE_OPTIONS[shapeId]?.map(option => (
+
+                            <button
+                                key={option.value}
+                                className={`mode-btn ${mode === option.value ? 'active' : ''}`}
+                                onClick={() => setMode(option.value)}
+                            >
+                                {option.label}
+                            </button>
+
+                        ))}
+
+                    </div>
                 </div>
             </div>
         </>

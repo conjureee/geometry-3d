@@ -1,8 +1,7 @@
-import { useRef, useMemo } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useMemo } from 'react'
 import * as THREE from 'three'
 
-export default function CylinderAnimation({ progress }) {
+export default function CylinderAnimation({progress, mode = 'short', }) {
 
     const delay = 0.1
 
@@ -13,19 +12,24 @@ export default function CylinderAnimation({ progress }) {
 
     const angle = delayedProgress * Math.PI * 2
 
+    const isLong = mode === 'long'
+
+    const width = isLong ? 2 : 1
+    const height = isLong ? 1 : 2
+
     const rectanglePoints = [
-        new THREE.Vector3(0, 1, 0),
-        new THREE.Vector3(1, 1, 0),
-        new THREE.Vector3(1, -1, 0),
-        new THREE.Vector3(0, -1, 0),
-        new THREE.Vector3(0, 1, 0),
+        new THREE.Vector3(0, height / 2, 0),
+        new THREE.Vector3(width, height / 2, 0),
+        new THREE.Vector3(width, -height / 2, 0),
+        new THREE.Vector3(0, -height / 2, 0),
+        new THREE.Vector3(0, height / 2, 0),
     ]
 
     const geoRectangle = useMemo(() => {
         const g = new THREE.BufferGeometry()
         g.setFromPoints(rectanglePoints)
         return g
-    }, [])
+    }, [mode])
 
     return (
         <group rotation={[0, angle, 0]}>
@@ -37,7 +41,15 @@ export default function CylinderAnimation({ progress }) {
 
             {progress > 0.8 && (
                 <mesh>
-                    <cylinderGeometry args={[1, 1, 2, 64]} />
+                    <cylinderGeometry
+                        args={[
+                            width,
+                            width,
+                            height,
+                            64
+                        ]}
+                    />
+
                     <meshStandardMaterial
                         color="#4f8ef7"
                         transparent

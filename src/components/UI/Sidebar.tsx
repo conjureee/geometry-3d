@@ -14,7 +14,7 @@ const SHAPES = [
     { id: 'pyramid',     name: 'Ostrosłup' },
 ]
 
-const HAS_ANIMATION = ['cone', 'cylinder']
+const HAS_ANIMATION = ['cone', 'cylinder', 'sphere']
 
 function SpinningShape({ shapeId }) {
     const ref = useRef(null)
