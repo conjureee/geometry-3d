@@ -152,11 +152,3 @@ Planowane ulepszenia:
 - quizy i zadania,
 - zapisywanie ustawień użytkownika,
 
----
-
-# 👨‍💻 Autorzy
-
-| Autor | Zakres prac |
-|---|---|
-| MD | UI aplikacji, modele brył 3D, controls, animacje, panel informacji, logika projektu, dokumentacja |
-| DG | Implementacja przekrojów brył |
