@@ -1,18 +1,11 @@
 - Przekroje (sześcianu i ostrosłupa) (Dawid)
-- Bryły pochyłe - graniastosłup i ostrosłup (Maksym)
-- Kąty (nachylenie ściany bocznej do płaszczyzny przekątnej)
-- Media queries :///
 
-- Przekątne tylko jednej ściany/bryły w prostopadłościanie i sześcianie
-- Instrukcja obsługi na stronie
-- Animacja postawania kuli - kole i półkole
-- Walec + stożek animacja według dłuższego i krótszego boku
+- Naprawić graniastosłup
 - Wysokości ścian bocznych i podstawy
-- Zadania jeśli czas będzie
+- Przekątne jednej ściany/bryły w prostopadłościanie i sześcianie
 - Wszystkie przekątne sześcianu
-
-/////////
-
-TODO:
-0. PONAPRAWIAĆ BY NIE BYŁO NA CZERWONO
-1. NAPRAWIĆ PRZEKĄTNE BRYŁY I ŚCIAN W GRANIASTOSŁUPIE
+- Kąty (nachylenie ściany bocznej do płaszczyzny przekątnej)
+- Ponaprawiać by nie na czerwono
+- Media queries
+- Napisać instrukcję
+- Zadania jeśli czas będzie

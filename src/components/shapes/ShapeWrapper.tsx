@@ -148,15 +148,8 @@ export default function ShapeWrapper({
 
         for (let i = 0; i < n; i++) {
             const next = (i + 1) % n
-            pts.push(base[i],    top[next])
+            pts.push(base[i], top[next])
             pts.push(base[next], top[i])
-        }
-
-        if (n === 4) {
-            pts.push(top[0],  top[2])
-            pts.push(top[1],  top[3])
-            pts.push(base[0], base[2])
-            pts.push(base[1], base[3])
         }
 
         return pts.length ? new THREE.BufferGeometry().setFromPoints(pts) : null

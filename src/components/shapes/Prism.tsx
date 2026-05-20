@@ -30,11 +30,6 @@ export default function Prism({
         return pts
     }, [sides, radius])
 
-    const halfH = height / 2
-
-    const baseVerts = vertices.map(([x, z]) => new THREE.Vector3(x, -halfH, z))
-    const topVerts = vertices.map(([x, z]) => new THREE.Vector3(x, halfH, z))
-
     const crossGeometry = useMemo(() => {
         if (!crossSection?.enabled) return null
 
