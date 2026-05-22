@@ -2,21 +2,17 @@ import { useMemo } from 'react'
 import * as THREE from 'three'
 import ShapeWrapper from './ShapeWrapper'
 
-export default function Cube({size = 2, color, showFaceDiagonals, showBodyDiagonals, showEdges}) {
-    const geo = useMemo(
-        () => new THREE.BoxGeometry(size, size, size),
-        [size]
-    )
-
+export default function Cube({ size = 1.6, color, showEdges, showFaceDiagonals, showBodyDiagonals, showFaceDiagonalsCount, showBodyDiagonalsCount }) {
+    const geo = useMemo(() => new THREE.BoxGeometry(size, size, size), [size])
     return (
         <ShapeWrapper
             color={color}
+            showEdges={showEdges}
             showFaceDiagonals={showFaceDiagonals}
             showBodyDiagonals={showBodyDiagonals}
-            showEdges={showEdges}
+            showFaceDiagonalsCount={showFaceDiagonalsCount}
+            showBodyDiagonalsCount={showBodyDiagonalsCount}
             geometry={geo}
-        >
-            <primitive object={geo} attach="geometry" />
-        </ShapeWrapper>
+        />
     )
 }

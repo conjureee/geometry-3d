@@ -10,6 +10,8 @@ export default function ShapeWrapper({
                                          showBodyDiagonals = false,
                                          showBaseDiagonals = false,
                                          showHeight = false,
+                                         showFaceDiagonalsCount = Infinity,
+                                         showBodyDiagonalsCount = Infinity,
                                          showInclined = false,
                                          geometry,
                                      }: {
@@ -20,6 +22,8 @@ export default function ShapeWrapper({
                                         showBodyDiagonals?: boolean
                                         showBaseDiagonals?: boolean
                                         showHeight?: boolean
+                                        showFaceDiagonalsCount?: number
+                                        showBodyDiagonalsCount?: number
                                         showInclined?: boolean
                                         geometry?: THREE.BufferGeometry
                                     }) {
@@ -123,74 +127,122 @@ export default function ShapeWrapper({
     }, [uniqueVerts, showBaseDiagonals])
 
     const faceDiagonalLines = useMemo(() => {
-        if (!showFaceDiagonals) return null
+        if (!showFaceDiagonals) return null;
 
-        const minY = Math.min(...uniqueVerts.map(v => v.y))
-        const maxY = Math.max(...uniqueVerts.map(v => v.y))
+        const yCoords = uniqueVerts.map(v => v.y);
+        const minY = Math.min(...yCoords);
+        const maxY = Math.max(...yCoords);
 
-        const base = sortedByAngle(uniqueVerts.filter(v => Math.abs(v.y - minY) < 0.001))
-        const rawTop = uniqueVerts.filter(v => Math.abs(v.y - maxY) < 0.001)
-        const n = base.length
+        const baseRaw = uniqueVerts.filter(v => Math.abs(v.y - minY) < 0.006);
+        const topRaw  = uniqueVerts.filter(v => Math.abs(v.y - maxY) < 0.006);
 
-        if (n < 3 || rawTop.length !== n) return null
+        if (baseRaw.length < 3 || topRaw.length !== baseRaw.length) return null;
 
-        const top = base.map(b => {
-            let closest = rawTop[0]
-            let minDist = Infinity
-            rawTop.forEach(t => {
-                const d = Math.hypot(t.x - b.x, t.z - b.z)
-                if (d < minDist) { minDist = d; closest = t }
-            })
-            return closest
-        })
+        const n = baseRaw.length;
+        const base = sortedByAngle(baseRaw);
+        const top  = sortedByAngle(topRaw);
 
-        const pts: THREE.Vector3[] = []
+        const used = new Set<number>();
+        const matchedTop = base.map(b => {
+            let bestIdx = -1;
+            let minDist = Infinity;
+
+            topRaw.forEach((t, idx) => {
+                if (used.has(idx)) return;
+                const d = Math.hypot(t.x - b.x, t.z - b.z);
+                if (d < minDist) {
+                    minDist = d;
+                    bestIdx = idx;
+                }
+            });
+
+            if (bestIdx !== -1) {
+                used.add(bestIdx);
+                return topRaw[bestIdx];
+            }
+            return top[base.indexOf(b)];
+        });
+
+        const pts: THREE.Vector3[] = [];
+        const count = Math.min(showFaceDiagonalsCount ?? 6, 12);
+
+        const lateralDiagonals: THREE.Vector3[][] = [];
+        const baseDiagonals: THREE.Vector3[][] = [];
+        const topDiagonals: THREE.Vector3[][] = [];
 
         for (let i = 0; i < n; i++) {
-            const next = (i + 1) % n
-            pts.push(base[i], top[next])
-            pts.push(base[next], top[i])
+            const next = (i + 1) % n;
+            lateralDiagonals.push([base[i], matchedTop[next]]);
+            lateralDiagonals.push([base[next], matchedTop[i]]);
         }
 
-        return pts.length ? new THREE.BufferGeometry().setFromPoints(pts) : null
+        baseDiagonals.push([base[0], base[2]]);
+        baseDiagonals.push([base[1], base[3]]);
+        topDiagonals.push([matchedTop[0], matchedTop[2]]);
+        topDiagonals.push([matchedTop[1], matchedTop[3]]);
 
-    }, [uniqueVerts, showFaceDiagonals])
+        const allDiagonals = [
+            ...lateralDiagonals.slice(0, 4),
+            ...baseDiagonals,
+            ...topDiagonals,
+            ...lateralDiagonals.slice(4)
+        ];
+
+        for (let i = 0; i < count && i < allDiagonals.length; i++) {
+            const [a, b] = allDiagonals[i];
+            pts.push(a, b);
+        }
+
+        return pts.length ? new THREE.BufferGeometry().setFromPoints(pts) : null;
+
+    }, [uniqueVerts, showFaceDiagonals, showFaceDiagonalsCount]);
 
     const bodyDiagonalLines = useMemo(() => {
-        if (!showBodyDiagonals) return null
+        if (!showBodyDiagonals) return null;
 
-        const minY = Math.min(...uniqueVerts.map(v => v.y))
-        const maxY = Math.max(...uniqueVerts.map(v => v.y))
+        const minY = Math.min(...uniqueVerts.map(v => v.y));
+        const maxY = Math.max(...uniqueVerts.map(v => v.y));
 
-        const base = sortedByAngle(
-            uniqueVerts.filter(v => Math.abs(v.y - minY) < 0.001)
-        )
+        const baseRaw = uniqueVerts.filter(v => Math.abs(v.y - minY) < 0.006);
+        const topRaw  = uniqueVerts.filter(v => Math.abs(v.y - maxY) < 0.006);
 
-        const top = sortedByAngle(
-            uniqueVerts.filter(v => Math.abs(v.y - maxY) < 0.001)
-        )
+        if (baseRaw.length < 3 || topRaw.length !== baseRaw.length) return null;
 
-        const n = base.length
+        const n = baseRaw.length;
+        const base = sortedByAngle(baseRaw);
+        const top  = sortedByAngle(topRaw);
 
-        if (top.length !== n || n < 4) return null
+        const pts: THREE.Vector3[] = [];
+        const count = Math.min(showBodyDiagonalsCount ?? 4, 4); // maksymalnie 4
 
-        const pts: THREE.Vector3[] = []
+        // Generujemy dokładnie 4 unikalne przekątne bryły
+        const bodyDiagonals: [THREE.Vector3, THREE.Vector3][] = [];
 
-        for (let i = 0; i < n; i++) {
-
-            for (let offset = 2; offset <= n - 2; offset++) {
-
-                const j = (i + offset) % n
-
-                pts.push(base[i], top[j])
+        if (n === 4) {
+            // Standardowe 4 przekątne dla sześcianu / prostopadłościanu
+            bodyDiagonals.push([base[0], top[2]]);
+            bodyDiagonals.push([base[1], top[3]]);
+            bodyDiagonals.push([base[2], top[0]]);
+            bodyDiagonals.push([base[3], top[1]]);
+        } else {
+            // Dla wieloboków (np. prism z większą ilością boków)
+            for (let i = 0; i < n; i++) {
+                const j = (i + Math.floor(n / 2)) % n; // mniej więcej "naprzeciwko"
+                bodyDiagonals.push([base[i], top[j]]);
             }
+        }
+
+        // Dodajemy tylko tyle, ile użytkownik chce (1 do 4)
+        for (let i = 0; i < count; i++) {
+            const [a, b] = bodyDiagonals[i];
+            pts.push(a, b);
         }
 
         return pts.length
             ? new THREE.BufferGeometry().setFromPoints(pts)
-            : null
+            : null;
 
-    }, [uniqueVerts, showBodyDiagonals])
+    }, [uniqueVerts, showBodyDiagonals, showBodyDiagonalsCount]);
 
     const heightLine = useMemo(() => {
         if (!showHeight) return null

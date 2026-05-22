@@ -38,18 +38,18 @@ const CONTROLS = {
 const OVERLAYS = {
     cube: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
-        { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,180,80,0.8)', default: false },
-        { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
+        { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,180,80,0.8)', default: false, maxCount: 12 },
+        { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false, maxCount: 4 },
     ],
     cuboid: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
-        { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,180,80,0.8)', default: false },
-        { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false },
+        { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,180,80,0.8)', default: false, maxCount: 12 },
+        { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false, maxCount: 4 },
     ],
     prism: [
         { key: 'showEdges',         label: 'krawędzie ścian',    color: null, default: true },
         { key: 'showBaseDiagonals', label: 'przekątne podstawy', color: 'rgba(255,80,80,0.8)', default: false },
-        { key: 'showFaceDiagonals', label: 'przekątne ścian',    color: 'rgba(255,170,50,0.8)', default: false },
+        { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,170,50,0.8)', default: false, maxCount: 32 },
         { key: 'showBodyDiagonals', label: 'przekątne bryły',    color: 'rgba(200,7,7,0.9)', default: false },
         { key: 'showInclined', label: 'ostrosłup pochylony', default: false }
     ],
@@ -86,7 +86,10 @@ export function getDefaults(shapeId) {
 
 export function getOverlayDefaults(shapeId) {
     const obj = {}
-    ;(OVERLAYS[shapeId] || []).forEach(o => { obj[o.key] = o.default })
+    ;(OVERLAYS[shapeId] || []).forEach(o => {
+        obj[o.key] = o.default
+        if (o.maxCount !== undefined) obj[o.key + 'Count'] = o.maxCount
+    })
     return obj
 }
 
@@ -150,16 +153,40 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
                     {overlayDefs.length > 0 && <div className="controls-divider" />}
 
                     {overlayDefs.map(ov => (
-                        <label key={ov.key} className="control-checkbox-row">
-                            <input
-                                type="checkbox"
-                                checked={overlays?.[ov.key] ?? ov.default}
-                                onChange={e => onOverlayChange(ov.key, e.target.checked)}
-                            />
-                            <span className="control-label" style={ov.color ? { color: ov.color } : {}}>
-                                {ov.label}
-                            </span>
-                        </label>
+                        <div key={ov.key}>
+                            <label className="control-checkbox-row">
+                                <input
+                                    type="checkbox"
+                                    checked={overlays?.[ov.key] ?? ov.default}
+                                    onChange={e => onOverlayChange(ov.key, e.target.checked)}
+                                />
+                                <span className="control-label" style={ov.color ? { color: ov.color } : {}}>
+                                    {ov.label}
+                                </span>
+                            </label>
+
+                            {ov.maxCount !== undefined && (overlays?.[ov.key] ?? ov.default) && (
+                                <div className="control-row" style={{ marginTop: 6 }}>
+                                    <div className="control-label-row">
+                                    <span className="control-label" style={{ fontSize: 10, opacity: 0.6 }}>
+                                        ilość widocznych
+                                    </span>
+                                    <span className="control-value">
+                                        {overlays?.[ov.key + 'Count'] ?? ov.maxCount}
+                                    </span>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min={1}
+                                        max={ov.maxCount}
+                                        step={1}
+                                        value={overlays?.[ov.key + 'Count'] ?? ov.maxCount}
+                                        onChange={e => onOverlayChange(ov.key + 'Count', parseInt(e.target.value))}
+                                        className="control-slider"
+                                    />
+                                </div>
+                            )}
+                        </div>
                     ))}
                 </div>
             </div>

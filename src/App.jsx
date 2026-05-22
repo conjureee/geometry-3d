@@ -67,6 +67,7 @@ export default function App() {
                 crossSection={crossSection}
                 onCrossSectionChange={handleCrossSectionChange}
             />
+
             <Canvas camera={{ position: [3, 3, 3], fov: 65 }} gl={{ localClippingEnabled: true }}>
                 <ambientLight intensity={0.3} />
                 <directionalLight position={[5, 5, 5]} intensity={1.2} />
