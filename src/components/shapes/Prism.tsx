@@ -12,6 +12,7 @@ export default function Prism({
                                   showBaseDiagonals,
                                   showFaceDiagonals,
                                   showBodyDiagonals,
+                                  showFaceDiagonalsCount,
                                   showInclined
                               }){
     const geo = useMemo(
@@ -222,6 +223,7 @@ export default function Prism({
                 showBaseDiagonals={showBaseDiagonals}
                 showFaceDiagonals={showFaceDiagonals}
                 showBodyDiagonals={showBodyDiagonals}
+                showFaceDiagonalsCount={showFaceDiagonalsCount}
                 showInclined={showInclined}
             />
 

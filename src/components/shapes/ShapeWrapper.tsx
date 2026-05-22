@@ -10,6 +10,8 @@ export default function ShapeWrapper({
                                          showBodyDiagonals = false,
                                          showBaseDiagonals = false,
                                          showHeight = false,
+                                         showFaceHeights = false,
+                                         showFaceHeightsCount = Infinity,
                                          showFaceDiagonalsCount = Infinity,
                                          showBodyDiagonalsCount = Infinity,
                                          showInclined = false,
@@ -22,6 +24,8 @@ export default function ShapeWrapper({
                                         showBodyDiagonals?: boolean
                                         showBaseDiagonals?: boolean
                                         showHeight?: boolean
+                                        showFaceHeights?: boolean
+                                        showFaceHeightsCount?: number
                                         showFaceDiagonalsCount?: number
                                         showBodyDiagonalsCount?: number
                                         showInclined?: boolean
@@ -213,26 +217,22 @@ export default function ShapeWrapper({
         const top  = sortedByAngle(topRaw);
 
         const pts: THREE.Vector3[] = [];
-        const count = Math.min(showBodyDiagonalsCount ?? 4, 4); // maksymalnie 4
+        const count = Math.min(showBodyDiagonalsCount ?? 4, 4);
 
-        // Generujemy dokładnie 4 unikalne przekątne bryły
         const bodyDiagonals: [THREE.Vector3, THREE.Vector3][] = [];
 
         if (n === 4) {
-            // Standardowe 4 przekątne dla sześcianu / prostopadłościanu
             bodyDiagonals.push([base[0], top[2]]);
             bodyDiagonals.push([base[1], top[3]]);
             bodyDiagonals.push([base[2], top[0]]);
             bodyDiagonals.push([base[3], top[1]]);
         } else {
-            // Dla wieloboków (np. prism z większą ilością boków)
             for (let i = 0; i < n; i++) {
-                const j = (i + Math.floor(n / 2)) % n; // mniej więcej "naprzeciwko"
+                const j = (i + Math.floor(n / 2)) % n;
                 bodyDiagonals.push([base[i], top[j]]);
             }
         }
 
-        // Dodajemy tylko tyle, ile użytkownik chce (1 do 4)
         for (let i = 0; i < count; i++) {
             const [a, b] = bodyDiagonals[i];
             pts.push(a, b);
@@ -258,6 +258,40 @@ export default function ShapeWrapper({
             new THREE.Vector3(0, maxY, 0)
         ])
     }, [geometry, showHeight])
+
+    const faceHeightLines = useMemo(() => {
+        if (!showFaceHeights) return null;
+
+        if (uniqueVerts.length !== 4) return null;
+
+        const verts = [...uniqueVerts]; // A, B, C, D
+
+        const pts: THREE.Vector3[] = [];
+        const count = Math.min(showFaceHeightsCount ?? 4, 4);
+
+        const addFaceHeight = (v1: THREE.Vector3, v2: THREE.Vector3, v3: THREE.Vector3) => {
+            const mid = new THREE.Vector3().addVectors(v2, v3).multiplyScalar(0.5);
+            pts.push(v1, mid);
+        };
+
+        const allFaces = [
+            [verts[0], verts[1], verts[2]], // ściana ABC
+            [verts[0], verts[1], verts[3]], // ściana ABD
+            [verts[0], verts[2], verts[3]], // ściana ACD
+            [verts[1], verts[2], verts[3]], // ściana BCD
+        ];
+
+        // Dodajemy wysokości w sensownej kolejności (możesz zmienić)
+        for (let i = 0; i < count; i++) {
+            const [a, b, c] = allFaces[i];
+            addFaceHeight(a, b, c);
+        }
+
+        return pts.length
+            ? new THREE.BufferGeometry().setFromPoints(pts)
+            : null;
+
+    }, [uniqueVerts, showFaceHeights, showFaceHeightsCount]);
 
     return (
         <group>

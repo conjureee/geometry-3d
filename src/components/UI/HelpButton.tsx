@@ -1,12 +1,14 @@
 import { useState } from 'react';
 
 const INSTRUCTIONS = [
-    { icon: '🖱️', text: 'Lewy przycisk myszy + przeciągnij — obróć figurę' },
-    { icon: '🔍', text: 'Scroll — przybliż / oddal' },
-    { icon: '✋', text: 'Prawy przycisk myszy + przeciągnij — przesuń widok' },
-    { icon: '▶', text: 'Przycisk play na karcie figury — animacja powstawania' },
-    { icon: '☰', text: 'Strzałka u góry — zmień figurę' },
-    { icon: '⚙', text: 'Panel po prawej — parametry i nakładki' },
+    { icon: '🔄', text: 'Lewy przycisk myszy + przeciągnij -> obróć figurę' },
+    { icon: '🖐️', text: 'Prawy przycisk myszy + przeciągnij -> przesuń bryłę' },
+    { icon: '🖱️', text: 'Scroll -> przybliż / oddal' },
+    { icon: '🔝', text: 'Strzałka u góry -> menu do zmiany brył' },
+    { icon: '🎬', text: 'Przycisk "▶" na miniaturze bryły w menu na górze -> animacja powstawania' },
+    { icon: '💡', text: 'Panel po lewej -> informacje o bryle (m.in. opis, wzory, ciekawostki)' },
+    { icon: '🎛️', text: 'Panel po prawej (Parametry) -> parametry i nakładki' },
+    { icon: '🔪', text: 'Panel po prawej (Przekroje) -> przekroje brył, możliwe do wyboru różne osie' },
 ];
 
 export default function HelpButton() {

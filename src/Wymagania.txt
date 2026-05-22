@@ -1,9 +1,7 @@
 - Przekroje (sześcianu i ostrosłupa) (Dawid)
 
 - Naprawić graniastosłup
-- Wysokości ścian bocznych i podstawy
-- Przekątne jednej ściany/bryły w prostopadłościanie i sześcianie
-- Wszystkie przekątne sześcianu
+- Wysokości podstawy
 - Kąty (nachylenie ściany bocznej do płaszczyzny przekątnej)
 - Ponaprawiać by nie na czerwono
 - Media queries
