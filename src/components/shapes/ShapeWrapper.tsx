@@ -38,21 +38,24 @@ export default function ShapeWrapper({
         if (!showInclined) return geometry
 
         const cloned = geometry.clone()
+
         const pos = cloned.attributes.position
 
+        let minY = Infinity
         let maxY = -Infinity
-
         for (let i = 0; i < pos.count; i++) {
             const y = pos.getY(i)
+            if (y < minY) minY = y
             if (y > maxY) maxY = y
         }
 
+        const totalHeight = maxY - minY
+        const shiftAmount = 1.2
+
         for (let i = 0; i < pos.count; i++) {
             const y = pos.getY(i)
-
-            if (Math.abs(y - maxY) < 0.001) {
-                pos.setX(i, pos.getX(i) + 0.8)
-            }
+            const t = (y - minY) / totalHeight
+            pos.setX(i, pos.getX(i) + t * shiftAmount)
         }
 
         pos.needsUpdate = true
@@ -246,25 +249,52 @@ export default function ShapeWrapper({
 
     const heightLine = useMemo(() => {
         if (!showHeight) return null
-        const pos = geometry.attributes.position
+
+        const currentGeo = showInclined ? inclinedGeometry : geometry
+        const pos = currentGeo.attributes.position
+
         let minY = Infinity, maxY = -Infinity
         for (let i = 0; i < pos.count; i++) {
             const y = pos.getY(i)
             if (y < minY) minY = y
             if (y > maxY) maxY = y
         }
-        return new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(0, minY, 0),
-            new THREE.Vector3(0, maxY, 0)
-        ])
-    }, [geometry, showHeight])
+
+        const topVerts: THREE.Vector3[] = []
+        for (let i = 0; i < pos.count; i++) {
+            if (Math.abs(pos.getY(i) - maxY) < 0.001) {
+                topVerts.push(new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i)))
+            }
+        }
+        const topCenter = new THREE.Vector3()
+        topVerts.forEach(v => topCenter.add(v))
+        topCenter.divideScalar(topVerts.length)
+
+        if (showInclined) {
+            const foot = new THREE.Vector3(topCenter.x, minY, topCenter.z)
+            return new THREE.BufferGeometry().setFromPoints([topCenter, foot])
+        }
+
+        const baseVerts: THREE.Vector3[] = []
+        for (let i = 0; i < pos.count; i++) {
+            if (Math.abs(pos.getY(i) - minY) < 0.001) {
+                baseVerts.push(new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i)))
+            }
+        }
+        const baseCenter = new THREE.Vector3()
+        baseVerts.forEach(v => baseCenter.add(v))
+        baseCenter.divideScalar(baseVerts.length)
+
+        return new THREE.BufferGeometry().setFromPoints([topCenter, baseCenter])
+
+    }, [geometry, inclinedGeometry, showHeight, showInclined])
 
     const faceHeightLines = useMemo(() => {
         if (!showFaceHeights) return null;
 
         if (uniqueVerts.length !== 4) return null;
 
-        const verts = [...uniqueVerts]; // A, B, C, D
+        const verts = [...uniqueVerts];
 
         const pts: THREE.Vector3[] = [];
         const count = Math.min(showFaceHeightsCount ?? 4, 4);
@@ -275,13 +305,12 @@ export default function ShapeWrapper({
         };
 
         const allFaces = [
-            [verts[0], verts[1], verts[2]], // ściana ABC
-            [verts[0], verts[1], verts[3]], // ściana ABD
-            [verts[0], verts[2], verts[3]], // ściana ACD
-            [verts[1], verts[2], verts[3]], // ściana BCD
+            [verts[0], verts[1], verts[2]],
+            [verts[0], verts[1], verts[3]],
+            [verts[0], verts[2], verts[3]],
+            [verts[1], verts[2], verts[3]],
         ];
 
-        // Dodajemy wysokości w sensownej kolejności (możesz zmienić)
         for (let i = 0; i < count; i++) {
             const [a, b, c] = allFaces[i];
             addFaceHeight(a, b, c);

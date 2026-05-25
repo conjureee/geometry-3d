@@ -2,8 +2,6 @@
 
 - Naprawić graniastosłup
 - Wysokości podstawy
+- Media queries
 - Kąty (nachylenie ściany bocznej do płaszczyzny przekątnej)
 - Ponaprawiać by nie na czerwono
-- Media queries
-- Napisać instrukcję
-- Zadania jeśli czas będzie
