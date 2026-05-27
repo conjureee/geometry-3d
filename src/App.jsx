@@ -15,6 +15,10 @@ import Cylinder from './components/shapes/Cylinder'
 import Cuboid from './components/shapes/Cuboid'
 import Prism from './components/shapes/Prism'
 import Pyramid from './components/shapes/Pyramid'
+import { useIsMobile } from './hooks/useIsMobile'
+import MobileHeader from './components/UI/MobileHeader'
+import BottomPanel from './components/UI/BottomPanel'
+
 
 const shapeMap = {
     tetrahedron: (p) => <Tetrahedron {...p} />,
@@ -28,6 +32,7 @@ const shapeMap = {
 }
 
 export default function App() {
+    const { isMobile } = useIsMobile()
     const [activeShape, setActiveShape] = useState('cube')
     const [params, setParams]   = useState(() => getDefaults('cube'))
     const [overlays, setOverlays] = useState(() => getOverlayDefaults('cube'))
@@ -55,18 +60,27 @@ export default function App() {
 
     return (
         <div className="screen">
-            <Sidebar activeShape={activeShape} onShapeChange={handleShapeChange} />
-            <ShapeInfoPanel shapeData={solids[activeShape]} />
-            <HelpButton />
-            <Controls
-                activeShape={activeShape}
-                params={params}
-                onChange={handleParamChange}
-                overlays={overlays}
-                onOverlayChange={handleOverlayChange}
-                crossSection={crossSection}
-                onCrossSectionChange={handleCrossSectionChange}
-            />
+            {isMobile
+                ? <MobileHeader activeShape={activeShape} onShapeChange={handleShapeChange} />
+                : <Sidebar activeShape={activeShape} onShapeChange={handleShapeChange} />
+            }
+
+            {!isMobile && <HelpButton />}
+
+            {!isMobile && (
+                <>
+                    <ShapeInfoPanel shapeData={solids[activeShape]} />
+                    <Controls
+                        activeShape={activeShape}
+                        params={params}
+                        onChange={handleParamChange}
+                        overlays={overlays}
+                        onOverlayChange={handleOverlayChange}
+                        crossSection={crossSection}
+                        onCrossSectionChange={handleCrossSectionChange}
+                    />
+                </>
+            )}
 
             <Canvas camera={{ position: [3, 3, 3], fov: 65 }} gl={{ localClippingEnabled: true }}>
                 <ambientLight intensity={0.3} />
@@ -75,6 +89,19 @@ export default function App() {
                 {shapeMap[activeShape]?.({ ...params, color, ...overlays, crossSection })}
                 <OrbitControls />
             </Canvas>
+
+            {isMobile && (
+                <BottomPanel
+                    activeShape={activeShape}
+                    params={params}
+                    onChange={handleParamChange}
+                    overlays={overlays}
+                    onOverlayChange={handleOverlayChange}
+                    crossSection={crossSection}
+                    onCrossSectionChange={handleCrossSectionChange}
+                    shapeData={solids[activeShape]}
+                />
+            )}
         </div>
     )
 }

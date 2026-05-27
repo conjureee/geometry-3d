@@ -26,12 +26,12 @@ const CONTROLS = {
     prism: [
         { key: 'radius', label: 'Promień', min: 0.5, max: 5, step: 0.1, default: 1.25 },
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
-        { key: 'sides',  label: 'Boki w podstawie', min: 3, max: 32, step: 1, default: 5 },
+        { key: 'sides',  label: 'Boki w podstawie', min: 3, max: 16, step: 1, default: 5 },
     ],
     pyramid: [
         { key: 'radius', label: 'Promień podstawy', min: 0.5, max: 5, step: 0.1, default: 1.25 },
         { key: 'height', label: 'Wysokość', min: 0.5, max: 6, step: 0.1, default: 2.5 },
-        { key: 'sides',  label: 'Boki w podstawie', min: 3, max: 32, step: 1, default: 5 },
+        { key: 'sides',  label: 'Boki w podstawie', min: 3, max: 16, step: 1, default: 5 },
     ],
 }
 
@@ -49,9 +49,9 @@ const OVERLAYS = {
     prism: [
         { key: 'showEdges', label: 'krawędzie ścian',    color: null, default: true },
         { key: 'showBaseDiagonals', label: 'przekątne podstawy', color: 'rgba(255,80,80,0.8)', default: false },
-        { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,170,50,0.8)', default: false, maxCount: 2 },
-        { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(200,7,7,0.9)', default: false },
-        { key: 'showInclined', label: 'ostrosłup pochylony', default: false }
+        { key: 'showInclined', label: 'ostrosłup pochylony', default: false },
+        // { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,170,50,0.8)', default: false, maxCount: 2 },
+        // { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(200,7,7,0.9)', default: false }
     ],
     pyramid: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
@@ -94,7 +94,7 @@ export function getOverlayDefaults(shapeId) {
     return obj
 }
 
-export default function Controls({activeShape, params, onChange, overlays, onOverlayChange, crossSection, onCrossSectionChange}) {
+export default function Controls({activeShape, params, onChange, overlays, onOverlayChange, crossSection, onCrossSectionChange, embedded = false}) {
 
     const controls = CONTROLS[activeShape] || []
     const overlayDefs = OVERLAYS[activeShape] || []
@@ -122,7 +122,7 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
     })()
 
     return (
-        <div className="controls-panel">
+        <div className={embedded ? 'controls-panel-embedded' : 'controls-panel'}>
             <div className="controls-header" onClick={() => setOpen(o => !o)}>
                 <span className="controls-title">parametry</span>
                 <svg width="12" height="8" viewBox="0 0 14 8" fill="none"

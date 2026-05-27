@@ -10,10 +10,10 @@ export default function Prism({
                                   crossSection,
                                   showEdges,
                                   showBaseDiagonals,
-                                  showFaceDiagonals,
-                                  showBodyDiagonals,
-                                  showFaceDiagonalsCount,
                                   showInclined
+                                  // showFaceDiagonals,
+                                  // showBodyDiagonals,
+                                  // showFaceDiagonalsCount,
                               }){
     const geo = useMemo(
         () => new THREE.CylinderGeometry(radius, radius, height, sides),
@@ -221,10 +221,10 @@ export default function Prism({
                 geometry={geo}
                 showEdges={showEdges}
                 showBaseDiagonals={showBaseDiagonals}
-                showFaceDiagonals={showFaceDiagonals}
-                showBodyDiagonals={showBodyDiagonals}
-                showFaceDiagonalsCount={showFaceDiagonalsCount}
                 showInclined={showInclined}
+                // showFaceDiagonals={showFaceDiagonals}
+                // showFaceDiagonalsCount={showFaceDiagonalsCount}
+                // showBodyDiagonals={showBodyDiagonals}
             />
 
             {crossSection?.enabled && crossGeometry && (

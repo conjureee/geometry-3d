@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const INSTRUCTIONS = [
+export const INSTRUCTIONS = [
     { icon: '🔄', text: 'Lewy przycisk myszy + przeciągnij -> obróć figurę' },
     { icon: '🖐️', text: 'Prawy przycisk myszy + przeciągnij -> przesuń bryłę' },
     { icon: '🖱️', text: 'Scroll -> przybliż / oddal' },

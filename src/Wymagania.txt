@@ -5,3 +5,7 @@
 - Media queries
 - Kąty (nachylenie ściany bocznej do płaszczyzny przekątnej)
 - Ponaprawiać by nie na czerwono
+
+
+
+-> TWORZENIE ANIMACJI NA TABLECIE
