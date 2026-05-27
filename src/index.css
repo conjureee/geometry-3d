@@ -460,9 +460,7 @@ body {
 }
 
 @media (max-width: 480px) {
-    .modal {
-        border-radius: 14px;
-    }
+    .modal { border-radius: 14px; }
 }
 
 .modal-header {
