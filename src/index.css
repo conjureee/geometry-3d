@@ -941,3 +941,14 @@ body {
     margin-bottom: 10px;
     padding-left: 4px;
 }
+
+/* KaTeX fix */
+
+.katex { color: rgba(255, 255, 255, 0.75) !important; }
+
+.katex-display { color: rgba(255, 255, 255, 0.75) !important; }
+
+.katex-error {
+    color: rgba(255, 80, 80, 0.7) !important;
+    font-size: 11px !important;
+}

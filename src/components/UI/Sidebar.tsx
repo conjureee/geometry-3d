@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
 import AnimationModal from './AnimationModal'
 
 const SHAPES = [
@@ -48,6 +47,7 @@ function SpinningShape({ shapeId }) {
 function ShapeCard({ shape, onClick, onPlay }) {
     const [hovered, setHovered] = useState(false)
     const hasAnim = HAS_ANIMATION.includes(shape.id)
+    const isMobile = window.innerWidth < 1024
 
     return (
         <div
@@ -63,13 +63,11 @@ function ShapeCard({ shape, onClick, onPlay }) {
                     <directionalLight position={[3, 4, 3]} intensity={1.2} />
                     <SpinningShape shapeId={shape.id} />
                 </Canvas>
-                {hasAnim && hovered && (
+
+                {hasAnim && (hovered || isMobile) && (
                     <button
                         className="figure-play-btn"
-                        onClick={e => {
-                            e.stopPropagation()
-                            onPlay(shape.id)
-                        }}
+                        onClick={e => { e.stopPropagation(); onPlay(shape.id) }}
                     >
                         <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
                             <path d="M1 1L11 7L1 13V1Z" fill="rgba(79,142,247,0.9)" />
@@ -78,7 +76,6 @@ function ShapeCard({ shape, onClick, onPlay }) {
                 )}
             </div>
 
-
             <span className="figure-name">{shape.name}</span>
         </div>
     )
@@ -86,7 +83,7 @@ function ShapeCard({ shape, onClick, onPlay }) {
 
 export default function Sidebar({ activeShape, onShapeChange }) {
     const [open, setOpen] = useState(false)
-    const [animShape, setAnimShape] = useState(null)  // null = modal zamknięty
+    const [animShape, setAnimShape] = useState(null)
 
     const visible = SHAPES.filter(s => s.id !== activeShape)
 
@@ -123,7 +120,6 @@ export default function Sidebar({ activeShape, onShapeChange }) {
                 />
             )}
 
-            {/* modal animacji */}
             {animShape && (
                 <AnimationModal
                     shapeId={animShape}

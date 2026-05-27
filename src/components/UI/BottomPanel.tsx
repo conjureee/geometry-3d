@@ -9,67 +9,26 @@ export default function BottomPanel({ activeShape, params, onChange, overlays, o
     return (
         <>
             {/* panel INFORMACJE */}
-            <div style={{
-                position: 'fixed', bottom: 48, left: 0, right: 0,
-                zIndex: 149,
-                background: 'rgba(13,13,28,0.97)',
-                borderTop: '1px solid rgba(79,142,247,0.15)',
-                borderRadius: '20px 20px 0 0',
-                transform: infoOpen ? 'translateY(0)' : 'translateY(calc(100% - 48px))',
-                transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1)',
-                maxHeight: '75vh',
-                display: 'flex', flexDirection: 'column',
-                backdropFilter: 'blur(12px)',
-            }}>
-                <div
-                    onClick={() => setInfoOpen(o => !o)}
-                    style={{
-                        height: 48, flexShrink: 0,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        cursor: 'pointer', gap: 10,
-                    }}
-                >
-                    <div style={{ width: 36, height: 3, background: 'rgba(100,200,255,0.3)', borderRadius: 2 }} />
-                    <span style={{ fontSize: 10, letterSpacing: 3, textTransform: 'uppercase', color: 'rgba(100,200,255,0.5)' }}>
-                        informacje
-                    </span>
-                    <div style={{ width: 36, height: 3, background: 'rgba(100,200,255,0.3)', borderRadius: 2 }} />
+            <div className={`bottom-drawer bottom-drawer-info ${infoOpen ? 'open' : 'closed'}`}
+                 style={{ bottom: 48 }}>
+                <div className="bottom-handle" onClick={() => setInfoOpen(o => !o)}>
+                    <div className="bottom-handle-bar bottom-handle-bar-cyan" />
+                    <span className="bottom-handle-label bottom-handle-label-cyan">informacje</span>
+                    <div className="bottom-handle-bar bottom-handle-bar-cyan" />
                 </div>
-
-                <div style={{ overflowY: 'auto', flex: 1, paddingBottom: 24 }}>
+                <div className="bottom-scroll">
                     {shapeData && <InfoContent shapeData={shapeData} />}
                 </div>
             </div>
 
             {/* panel PARAMETRY */}
-            <div style={{
-                position: 'fixed', bottom: 0, left: 0, right: 0,
-                zIndex: 150,
-                background: 'rgba(13,13,28,0.97)',
-                borderTop: '1px solid rgba(79,142,247,0.2)',
-                borderRadius: '20px 20px 0 0',
-                transform: paramsOpen ? 'translateY(0)' : 'translateY(calc(100% - 48px))',
-                transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1)',
-                maxHeight: '72vh',
-                display: 'flex', flexDirection: 'column',
-                backdropFilter: 'blur(12px)',
-            }}>
-                <div
-                    onClick={() => setParamsOpen(o => !o)}
-                    style={{
-                        height: 48, flexShrink: 0,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        cursor: 'pointer', gap: 10,
-                    }}
-                >
-                    <div style={{ width: 36, height: 3, background: 'rgba(79,142,247,0.3)', borderRadius: 2 }} />
-                    <span style={{ fontSize: 10, letterSpacing: 3, textTransform: 'uppercase', color: 'rgba(79,142,247,0.5)' }}>
-                        parametry
-                    </span>
-                    <div style={{ width: 36, height: 3, background: 'rgba(79,142,247,0.3)', borderRadius: 2 }} />
+            <div className={`bottom-drawer bottom-drawer-params ${paramsOpen ? 'open' : 'closed'}`}>
+                <div className="bottom-handle" onClick={() => setParamsOpen(o => !o)}>
+                    <div className="bottom-handle-bar bottom-handle-bar-blue" />
+                    <span className="bottom-handle-label bottom-handle-label-blue">parametry</span>
+                    <div className="bottom-handle-bar bottom-handle-bar-blue" />
                 </div>
-
-                <div style={{ overflowY: 'auto', flex: 1, paddingBottom: 24 }}>
+                <div className="bottom-scroll">
                     <Controls
                         activeShape={activeShape}
                         params={params}
@@ -89,59 +48,53 @@ export default function BottomPanel({ activeShape, params, onChange, overlays, o
 function InfoContent({ shapeData }) {
     const { description, properties, formulas, dimensions, curiosities } = shapeData
     return (
-        <div style={{ padding: '0 20px' }}>
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5, marginBottom: 16 }}>
-                {description}
-            </p>
+        <div className="info-content">
+            <p className="info-description">{description}</p>
 
-            <Section title="Właściwości">
+            <InfoSection title="Właściwości">
                 {Object.entries(properties).map(([k, v]) => (
-                    <Row key={k} label={k} value={v.toString()} plain />
+                    <InfoRow key={k} label={k} value={v.toString()} />
                 ))}
-            </Section>
+            </InfoSection>
 
-            <Section title="Wzory">
+            <InfoSection title="Wzory">
                 {Object.entries(formulas).map(([k, v]) => (
-                    <Row key={k} label={k} value={v.replace(/\\\(|\\\)/g, '')} math />
+                    <InfoRow key={k} label={k} value={v.replace(/\\\(|\\\)/g, '')} math />
                 ))}
-            </Section>
+            </InfoSection>
 
-            <Section title="Wymiary">
+            <InfoSection title="Wymiary">
                 {Object.entries(dimensions).map(([k, v]) => (
-                    <Row key={k} label={k} value={v.replace(/\\\(|\\\)/g, '')} math />
+                    <InfoRow key={k} label={k} value={v.replace(/\\\(|\\\)/g, '')} math />
                 ))}
-            </Section>
+            </InfoSection>
 
-            <Section title="Ciekawostki">
+            <InfoSection title="Ciekawostki">
                 {curiosities.map((c, i) => (
-                    <p key={i} style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5, marginBottom: 8 }}>
-                        • {c}
-                    </p>
+                    <p key={i} className="info-curiosity">• {c}</p>
                 ))}
-            </Section>
+            </InfoSection>
         </div>
     )
 }
 
-function Section({ title, children }) {
+function InfoSection({ title, children }) {
     return (
-        <div style={{ marginBottom: 16 }}>
-            <span style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(79,142,247,0.5)', display: 'block', marginBottom: 8 }}>
-                {title}
-            </span>
+        <div className="info-section">
+            <span className="info-section-title">{title}</span>
             {children}
-            <div style={{ height: 1, background: 'rgba(79,142,247,0.08)', margin: '12px 0 0' }} />
+            <div className="info-section-divider" />
         </div>
     )
 }
 
-function Row({ label, value, math, plain }) {
+function InfoRow({ label, value, math }) {
     return (
-        <div style={{ display: 'flex', gap: 8, marginBottom: 6, alignItems: 'baseline', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 11, color: '#4f8ef7', fontWeight: 500, flexShrink: 0 }}>{label}:</span>
+        <div className="info-row">
+            <span className="info-row-label">{label}:</span>
             {math
                 ? <InlineMath math={value} />
-                : <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>{value}</span>
+                : <span className="info-row-value">{value}</span>
             }
         </div>
     )
