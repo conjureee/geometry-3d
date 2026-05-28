@@ -15,7 +15,7 @@ export const cubeData = {
     formulas: {
         "Objętość": "\\(V = a^3\\)",
         "Pole całkowite": "\\(P_c = 6a^2\\)",
-        "Przekątna": "\\(D = a\\sqrt{3}\\)"
+        "Przekątna": "\\(D = a \\sqrt{3}\\)"
     },
 
     dimensions: {
