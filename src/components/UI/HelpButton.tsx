@@ -11,17 +11,22 @@ export const INSTRUCTIONS = [
     { icon: '🔪', text: 'Panel po prawej (Przekroje) -> przekroje brył, możliwe do wyboru różne osie' },
 ];
 
+export const TOUCH_INSTRUCTIONS = [
+    { icon: '👆', text: 'Jeden palec + przeciągnij → obróć figurę' },
+    { icon: '🤏', text: 'Dwa palce → przybliż / oddal' },
+    { icon: '✌️', text: 'Dwa palce + przeciągnij → przesuń widok' },
+    { icon: '🍔', text: 'Hamburger po lewo na górze → menu do zmiany brył' },
+    { icon: '🎬', text: 'Przycisk ▶ przy bryle → animacja powstawania' },
+    { icon: '💡', text: 'Panel Informacje → opis, wzory, ciekawostki' },
+    { icon: '🎛️', text: 'Panel Parametry → parametry, nakładki i przekroje' },
+]
+
 export default function HelpButton() {
     const [open, setOpen] = useState(false)
     const [mode, setMode] = useState<'desktop'|'touch'>('desktop')
 
     const desktopInstructions = INSTRUCTIONS
-    const touchInstructions = [
-        { icon: '👆', text: 'Jeden palec + przeciągnij → obróć figurę' },
-        { icon: '🤏', text: 'Dwa palce → przybliż / oddal' },
-        { icon: '✌️', text: 'Dwa palce + przeciągnij → przesuń widok' },
-        ...INSTRUCTIONS.slice(3),
-    ]
+    const touchInstructions = TOUCH_INSTRUCTIONS
 
     const current = mode === 'desktop' ? desktopInstructions : touchInstructions
 

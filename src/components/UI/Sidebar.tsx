@@ -5,13 +5,13 @@ import ShapeIcon from './ShapeIcon'
 
 const SHAPES = [
     { id: 'tetrahedron', name: 'Czworościan' },
-    { id: 'cube',        name: 'Sześcian' },
-    { id: 'cuboid',      name: 'Prostopadłościan' },
-    { id: 'sphere',      name: 'Kula' },
-    { id: 'cone',        name: 'Stożek' },
-    { id: 'cylinder',    name: 'Walec' },
-    { id: 'prism',       name: 'Graniastosłup' },
-    { id: 'pyramid',     name: 'Ostrosłup' },
+    { id: 'cube', name: 'Sześcian' },
+    { id: 'cuboid', name: 'Prostopadłościan' },
+    { id: 'sphere', name: 'Kula' },
+    { id: 'cone', name: 'Stożek' },
+    { id: 'cylinder', name: 'Walec' },
+    { id: 'prism', name: 'Graniastosłup' },
+    { id: 'pyramid', name: 'Ostrosłup' },
 ]
 
 const HAS_ANIMATION = ['cone', 'cylinder', 'sphere']
@@ -28,13 +28,13 @@ function SpinningShape({ shapeId }) {
 
     const geo = {
         tetrahedron: <tetrahedronGeometry args={[1.1]} />,
-        cube:        <boxGeometry args={[1.6, 1.6, 1.6]} />,
-        sphere:      <sphereGeometry args={[1.1, 24, 16]} />,
-        cone:        <coneGeometry args={[1, 1.8, 24]} />,
-        cylinder:    <cylinderGeometry args={[0.9, 0.9, 1.8, 24]} />,
-        cuboid:      <boxGeometry args={[1.6, 0.75, 0.75]} />,
-        prism:       <cylinderGeometry args={[0.9, 0.9, 1.8, 5]} />,
-        pyramid:     <coneGeometry args={[1, 1.8, 5]} />,
+        cube: <boxGeometry args={[1.6, 1.6, 1.6]} />,
+        sphere: <sphereGeometry args={[1.1, 24, 16]} />,
+        cone: <coneGeometry args={[1, 1.8, 24]} />,
+        cylinder: <cylinderGeometry args={[0.9, 0.9, 1.8, 24]} />,
+        cuboid: <boxGeometry args={[1.6, 0.75, 0.75]} />,
+        prism: <cylinderGeometry args={[0.9, 0.9, 1.8, 5]} />,
+        pyramid: <coneGeometry args={[1, 1.8, 5]} />,
     }
 
     return (

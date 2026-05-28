@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Controls from './Controls'
 import MathRenderer from './MathRenderer'
-import { BlockMath, InlineMath } from "react-katex"
 
 export default function BottomPanel({ activeShape, params, onChange, overlays, onOverlayChange, crossSection, onCrossSectionChange, shapeData }) {
     const [paramsOpen, setParamsOpen] = useState(false)

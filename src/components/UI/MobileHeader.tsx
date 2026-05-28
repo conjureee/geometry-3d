@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import AnimationModal from './AnimationModal'
 import ShapeIcon from './ShapeIcon'
+import TOUCH_INSTRUCTIONS from './HelpButton'
 
 const HAS_ANIMATION = ['cone', 'cylinder', 'sphere']
 
@@ -14,16 +15,6 @@ const SHAPES = [
     { id: 'cylinder',    name: 'Walec' },
     { id: 'prism',       name: 'Graniastosłup' },
     { id: 'pyramid',     name: 'Ostrosłup' },
-]
-
-const TOUCH_INSTRUCTIONS = [
-    { icon: '👆', text: 'Jeden palec + przeciągnij → obróć figurę' },
-    { icon: '🤏', text: 'Dwa palce → przybliż / oddal' },
-    { icon: '✌️', text: 'Dwa palce + przeciągnij → przesuń widok' },
-    { icon: '🍔', text: 'Hamburger po lewo na górze → menu do zmiany brył' },
-    { icon: '🎬', text: 'Przycisk ▶ przy bryle → animacja powstawania' },
-    { icon: '💡', text: 'Panel Informacje → opis, wzory, ciekawostki' },
-    { icon: '🎛️', text: 'Panel Parametry → parametry, nakładki i przekroje' },
 ]
 
 function SpinningShape({ shapeId }) {

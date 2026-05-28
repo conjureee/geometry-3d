@@ -21,13 +21,13 @@ import BottomPanel from './components/UI/BottomPanel'
 
 const shapeMap = {
     tetrahedron: (p) => <Tetrahedron {...p} />,
-    cube:        (p) => <Cube {...p} />,
-    sphere:      (p) => <Sphere {...p} />,
-    cone:        (p) => <Cone {...p} />,
-    cylinder:    (p) => <Cylinder {...p} />,
-    cuboid:      (p) => <Cuboid {...p} />,
-    prism:       (p) => <Prism {...p} />,
-    pyramid:     (p) => <Pyramid {...p} />,
+    cube: (p) => <Cube {...p} />,
+    sphere: (p) => <Sphere {...p} />,
+    cone: (p) => <Cone {...p} />,
+    cylinder: (p) => <Cylinder {...p} />,
+    cuboid: (p) => <Cuboid {...p} />,
+    prism: (p) => <Prism {...p} />,
+    pyramid: (p) => <Pyramid {...p} />,
 }
 
 export default function App() {

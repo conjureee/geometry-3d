@@ -1,7 +1,6 @@
 export default function MathRenderer({ value }) {
     if (!value) return <span>—</span>
 
-    // najpierw oczyść z \( \) \[ \]
     let str = value
         .replace(/\\\(|\\\)/g, '')
         .replace(/\\\[|\\\]/g, '')
@@ -66,14 +65,12 @@ function parseMath(str) {
     let i = 0
 
     while (i < str.length) {
-        // \pi
         if (str.startsWith('\\pi', i)) {
             parts.push({ type: 'pi' })
             i += 3
             continue
         }
 
-        // \sqrt{...}
         if (str.startsWith('\\sqrt', i)) {
             i += 5
             if (str[i] === '{') {
@@ -86,7 +83,6 @@ function parseMath(str) {
             continue
         }
 
-        // \frac{...}{...}
         if (str.startsWith('\\frac', i)) {
             i += 5
             if (str[i] === '{') {
@@ -100,7 +96,6 @@ function parseMath(str) {
             continue
         }
 
-        // inne komendy \coś — pokaż bez backslasha
         if (str[i] === '\\') {
             i++
             let cmd = ''
@@ -111,7 +106,6 @@ function parseMath(str) {
             continue
         }
 
-        // potęga ^{...} lub ^x
         if (str[i] === '^') {
             i++
             if (str[i] === '{') {
@@ -124,7 +118,6 @@ function parseMath(str) {
             continue
         }
 
-        // indeks _{...} lub _x
         if (str[i] === '_') {
             i++
             if (str[i] === '{') {
@@ -137,7 +130,6 @@ function parseMath(str) {
             continue
         }
 
-        // zwykły tekst
         let text = ''
         while (i < str.length && !['\\', '^', '_'].includes(str[i])) {
             text += str[i++]
@@ -149,7 +141,6 @@ function parseMath(str) {
 }
 
 function extractBraces(str, i) {
-    // i powinno wskazywać na '{'
     let depth = 0
     let start = i + 1
     while (i < str.length) {
