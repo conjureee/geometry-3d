@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Controls from './Controls'
 import { BlockMath, InlineMath } from 'react-katex'
+import SafeMath from './Information'
 
 export default function BottomPanel({ activeShape, params, onChange, overlays, onOverlayChange, crossSection, onCrossSectionChange, shapeData }) {
     const [paramsOpen, setParamsOpen] = useState(false)
@@ -93,7 +94,7 @@ function InfoRow({ label, value, math }) {
         <div className="info-row">
             <span className="info-row-label">{label}:</span>
             {math
-                ? <InlineMath math={value} />
+                ? <SafeMath value={value} />
                 : <span className="info-row-value">{value}</span>
             }
         </div>
