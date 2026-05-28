@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import AnimationModal from './AnimationModal'
 import ShapeIcon from './ShapeIcon'
-import TOUCH_INSTRUCTIONS from './HelpButton'
+import { TOUCH_INSTRUCTIONS } from './HelpButton'
 
 const HAS_ANIMATION = ['cone', 'cylinder', 'sphere']
 
@@ -79,38 +79,25 @@ export default function MobileHeader({ activeShape, onShapeChange }) {
             <div className={`mobile-shape-drawer ${menuOpen ? 'open' : 'closed'}`}>
                 <span className="mobile-drawer-label">wybierz figurę</span>
                 {SHAPES.map(shape => (
-                    <div key={shape.id} style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    <div key={shape.id} style={{ display: 'flex', alignItems: 'center' }}>
                         <button
                             className={`mobile-shape-btn ${activeShape === shape.id ? 'active' : ''}`}
                             style={{ flex: 1 }}
                             onClick={() => { onShapeChange(shape.id); setMenuOpen(false) }}
                         >
-                            <button
-                                key={shape.id}
-                                className={`mobile-shape-btn ${activeShape === shape.id ? 'active' : ''}`}
-                                onClick={() => { onShapeChange(shape.id); setMenuOpen(false) }}
-                            >
-                                <div className="mobile-shape-thumb" style={{
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                }}>
-                                    <ShapeIcon
-                                        shapeId={shape.id}
-                                        size={36}
-                                        color={activeShape === shape.id ? 'rgba(79,142,247,0.9)' : 'rgba(79,142,247,0.45)'}
-                                    />
-                                </div>
-                                <span className="mobile-shape-name">{shape.name}</span>
-                            </button>
+                            <div className="mobile-shape-thumb" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <ShapeIcon
+                                    shapeId={shape.id}
+                                    size={36}
+                                    color={activeShape === shape.id ? 'rgba(79,142,247,0.9)' : 'rgba(79,142,247,0.45)'}
+                                />
+                            </div>
+                            <span className="mobile-shape-name">{shape.name}</span>
                         </button>
 
-                        {/* przycisk play */}
                         {HAS_ANIMATION.includes(shape.id) && (
                             <button
-                                onClick={e => {
-                                    e.stopPropagation()
-                                    setAnimShape(shape.id)
-                                    setMenuOpen(false)
-                                }}
+                                onClick={e => { e.stopPropagation(); setAnimShape(shape.id); setMenuOpen(false) }}
                                 className="anim-button"
                             >
                                 <svg width="10" height="12" viewBox="0 0 12 14" fill="none">

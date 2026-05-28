@@ -1,12 +1,21 @@
 export default function MathRenderer({ value }) {
     if (!value) return <span>—</span>
 
-    let str = value
+    let str = String(value)
         .replace(/\\\(|\\\)/g, '')
         .replace(/\\\[|\\\]/g, '')
         .trim()
 
-    const parts = parseMath(str)
+    if (!str) return <span>—</span>
+
+    let parts = []
+    try {
+        parts = parseMath(str)
+    } catch(e) {
+        return <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{str}</span>
+    }
+
+    if (!Array.isArray(parts)) return <span>{str}</span>
 
     return (
         <span style={{ fontFamily: 'Georgia, serif', fontSize: 13, color: 'rgba(255,255,255,0.8)' }}>
@@ -16,20 +25,16 @@ export default function MathRenderer({ value }) {
 }
 
 function MathPart({ part }) {
-    if (part.type === 'text') return <span>{part.value}</span>
+    if (!part) return null
 
+    if (part.type === 'text') return <span>{part.value}</span>
     if (part.type === 'pi') return <span>π</span>
 
     if (part.type === 'sqrt') return (
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}>
             <span style={{ fontSize: '1.1em' }}>√</span>
-            <span style={{
-                borderTop: '1.5px solid rgba(255,255,255,0.8)',
-                paddingTop: 1,
-                paddingLeft: 1,
-                paddingRight: 2,
-            }}>
-                {part.inner.map((p, i) => <MathPart key={i} part={p} />)}
+            <span style={{ borderTop: '1.5px solid rgba(255,255,255,0.8)', paddingTop: 1, paddingLeft: 1, paddingRight: 2 }}>
+                {(part.inner || []).map((p, i) => <MathPart key={i} part={p} />)}
             </span>
         </span>
     )
@@ -37,27 +42,18 @@ function MathPart({ part }) {
     if (part.type === 'frac') return (
         <span style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', verticalAlign: 'middle', margin: '0 3px', lineHeight: 1.2 }}>
             <span style={{ borderBottom: '1px solid rgba(255,255,255,0.7)', paddingBottom: 1, paddingLeft: 2, paddingRight: 2 }}>
-                {part.num.map((p, i) => <MathPart key={i} part={p} />)}
+                {(part.num || []).map((p, i) => <MathPart key={i} part={p} />)}
             </span>
             <span style={{ paddingTop: 1, paddingLeft: 2, paddingRight: 2 }}>
-                {part.den.map((p, i) => <MathPart key={i} part={p} />)}
+                {(part.den || []).map((p, i) => <MathPart key={i} part={p} />)}
             </span>
         </span>
     )
 
-    if (part.type === 'sup') return (
-        <sup style={{ fontSize: '0.7em', verticalAlign: 'super', lineHeight: 0 }}>
-            {part.value}
-        </sup>
-    )
+    if (part.type === 'sup') return <sup style={{ fontSize: '0.7em' }}>{part.value}</sup>
+    if (part.type === 'sub') return <sub style={{ fontSize: '0.7em' }}>{part.value}</sub>
 
-    if (part.type === 'sub') return (
-        <sub style={{ fontSize: '0.7em', verticalAlign: 'sub', lineHeight: 0 }}>
-            {part.value}
-        </sub>
-    )
-
-    return <span>{part.value}</span>
+    return <span>{part.value ?? ''}</span>
 }
 
 function parseMath(str) {
