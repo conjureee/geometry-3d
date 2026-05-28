@@ -1,14 +1,6 @@
 import { useState } from 'react'
 import { BlockMath, InlineMath } from "react-katex"
-
-export function SafeMath({ value }: { value: string }) {
-    const cleaned = value
-        .replace(/\\\(|\\\)/g, '')
-        .replace(/\\\[|\\\]/g, '')
-        .trim()
-    if (!cleaned) return <span>—</span>
-    return <InlineMath math={cleaned} />
-}
+import MathRenderer from './MathRenderer'
 
 export default function ShapeInfoPanel({ shapeData }) {
 
@@ -62,7 +54,7 @@ export default function ShapeInfoPanel({ shapeData }) {
                             {Object.entries(formulas).map(([key, value]) => (
                                 <li key={key} style={{ fontSize: "12px", color: "rgba(255,255,255,0.55)" }}>
                                     <strong style={{ color: "#4f8ef7" }}>{key}</strong>:
-                                    <SafeMath value={value} />
+                                    <MathRenderer value={value} />
                                 </li>
                             ))}
                         </ul>
@@ -76,7 +68,7 @@ export default function ShapeInfoPanel({ shapeData }) {
                         <ul style={{ paddingLeft: "16px", margin: 0 }}>
                             {Object.entries(dimensions).map(([key, value]) => (
                                 <li key={key} style={{ fontSize: "12px", color: "rgba(255,255,255,0.55)" }}>
-                                    <strong style={{ color: "#4f8ef7" }}>{key}</strong>: <SafeMath value={value} />
+                                    <strong style={{ color: "#4f8ef7" }}>{key}</strong>: <MathRenderer value={value} />
                                 </li>
                             ))}
                         </ul>

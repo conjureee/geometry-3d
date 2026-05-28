@@ -920,8 +920,7 @@ body {
     z-index: 149;
     background: rgba(13, 13, 28, 0.97);
     border-top: 1px solid rgba(79, 142, 247, 0.15);
-    bottom: 48px;
-    max-height: 60vh;
+    max-height: calc(100vh - 120px);
 }
 
 .bottom-drawer-info.open   { transform: translateY(0); }
@@ -930,6 +929,10 @@ body {
 .bottom-handle {
     height: 48px;
     flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: rgba(13, 13, 28, 0.97);
     display: flex;
     align-items: center;
     justify-content: center;

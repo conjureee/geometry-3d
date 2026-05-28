@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
-import "katex/dist/katex.min.css"
 import { OrbitControls } from '@react-three/drei'
 import Sidebar from './components/UI/Sidebar'
 import Controls, { getDefaults, getOverlayDefaults } from './components/UI/Controls'
@@ -18,9 +17,6 @@ import Pyramid from './components/shapes/Pyramid'
 import { useIsMobile } from './hooks/useIsMobile'
 import MobileHeader from './components/UI/MobileHeader'
 import BottomPanel from './components/UI/BottomPanel'
-import { cubeData } from './components/data/cube' // lub skąd importujesz
-
-console.log(JSON.stringify(cubeData.formulas))
 
 
 const shapeMap = {
