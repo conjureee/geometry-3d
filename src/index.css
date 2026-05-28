@@ -597,47 +597,53 @@ body {
     position: fixed;
     bottom: 24px;
     right: 24px;
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    border: 1px solid rgba(79,142,247,0.25);
-    cursor: pointer;
+    border: 1px solid rgba(79, 142, 247, 0.3);
+    background: rgba(13, 13, 28, 0.9);
+    color: rgba(79, 142, 247, 0.95);
+    font-size: 20px;
+    font-weight: 600;
+    font-family: serif;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     z-index: 150;
-    transition: all 0.2s;
-    color: rgba(79,142,247,0.9);
-    font-size: 16px;
-    font-weight: 500;
-    font-family: serif;
-    background: rgba(13,13,28,0.85);
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.help-button:hover {
+    background: rgba(79, 142, 247, 0.15);
+    border-color: rgba(79, 142, 247, 0.5);
+    transform: scale(1.08);
 }
 
 .help-button.open {
-    background: rgba(79,142,247,0.2);
-    border-color: rgba(79,142,247,0.6);
+    background: rgba(79, 142, 247, 0.2);
+    border-color: rgba(79, 142, 247, 0.65);
 }
 
 .help-panel {
     position: fixed;
-    bottom: 68px;
+    bottom: 78px;
     right: 24px;
-    width: 280px;
-    background: rgba(13,13,28,0.97);
-    border: 1px solid rgba(79,142,247,0.18);
+    width: 340px;
+    max-width: calc(100vw - 48px);
+    background: rgba(13, 13, 28, 0.97);
+    border: 1px solid rgba(79, 142, 247, 0.22);
     border-radius: 16px;
-    padding: 16px 18px;
+    padding: 18px 20px;
     z-index: 149;
     backdrop-filter: blur(12px);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
     opacity: 0;
-    transform: translateY(8px) scale(0.97);
-    pointer-events: none;
-    transition: opacity 0.2s, transform 0.2s;
+    transform: translateY(12px) scale(0.95);
     transform-origin: bottom right;
+    pointer-events: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .help-panel.open {
@@ -646,38 +652,89 @@ body {
     pointer-events: all;
 }
 
-.help-panel .help-header {
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: rgba(79,142,247,0.5);
-    margin-bottom: 4px;
+.help-mode-switch {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
 }
 
+.mode-tab {
+    flex: 1;
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(79, 142, 247, 0.08);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mode-tab.active {
+    background: rgba(79, 142, 247, 0.22);
+    color: rgba(79, 142, 247, 0.95);
+    border: 1px solid rgba(79, 142, 247, 0.4);
+}
+
+/* Nagłówek */
+.help-panel .help-header {
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(79, 142, 247, 0.55);
+    margin-bottom: 10px;
+    margin-top: 4px;
+}
+
+/* Elementy instrukcji */
 .help-panel .help-item {
     display: flex;
     align-items: flex-start;
     gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(79, 142, 247, 0.08);
+}
+
+.help-panel .help-item:last-child {
+    border-bottom: none;
 }
 
 .help-panel .help-icon {
-    font-size: 15px;
-    width: 20px;
-    text-align: center;
+    font-size: 17px;
+    width: 24px;
     flex-shrink: 0;
     margin-top: 1px;
 }
 
 .help-panel .help-text {
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    line-height: 1.5;
+    font-size: 13px;
+    line-height: 1.48;
+    color: rgba(255, 255, 255, 0.72);
 }
 
+/* Overlay */
 .help-overlay {
     position: fixed;
     inset: 0;
+    background: rgba(0, 0, 0, 0.45);
     z-index: 148;
+    backdrop-filter: blur(3px);
+}
+
+@media (max-width: 600px) {
+    .help-panel {
+        width: 92vw;
+        right: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(12px) scale(0.95);
+        transform-origin: bottom center;
+        bottom: 90px;
+    }
+
+    .help-panel.open {
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
 }
 
 /* Adaptation to tablets */

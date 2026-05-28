@@ -13,7 +13,7 @@ const CONTROLS = {
         { key: 'depth',  label: 'Głębokość', min: 0.5, max: 5, step: 0.1, default: 1.4 },
     ],
     sphere: [
-        { key: 'radius', label: 'Promień', min: 0.5, max: 5, step: 0.1, default: 1.5 },
+        { key: 'radius', label: 'Promień', min: 0.5, max: 5, step: 0.1, default: 1 },
     ],
     cone: [
         { key: 'radius', label: 'Promień podstawy', min: 0.5, max: 5, step: 0.1, default: 1.25 },

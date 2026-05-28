@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import * as THREE from 'three'
 import ShapeWrapper from './ShapeWrapper'
 
-export default function Sphere({ radius = 1.5, color, showEdges, showEquator, showRadius }) {
+export default function Sphere({ radius = 1, color, showEdges, showEquator, showRadius }) {
     const geo = useMemo(() => new THREE.SphereGeometry(radius, 32, 24), [radius])
 
     const equatorGeo = useMemo(() => {

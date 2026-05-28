@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import AnimationModal from './AnimationModal'
+import ShapeIcon from './ShapeIcon'
 
 const SHAPES = [
     { id: 'tetrahedron', name: 'Czworościan' },
@@ -57,12 +58,10 @@ function ShapeCard({ shape, onClick, onPlay }) {
             onMouseLeave={() => setHovered(false)}
             style={{ position: 'relative' }}
         >
-            <div className="figure-background">
-                <Canvas camera={{ position: [2.5, 1.8, 2.5], fov: 45 }}>
-                    <ambientLight intensity={0.5} />
-                    <directionalLight position={[3, 4, 3]} intensity={1.2} />
-                    <SpinningShape shapeId={shape.id} />
-                </Canvas>
+            <div className="figure-background" style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+                <ShapeIcon shapeId={shape.id} size={48} />
 
                 {hasAnim && (hovered || isMobile) && (
                     <button
@@ -75,7 +74,6 @@ function ShapeCard({ shape, onClick, onPlay }) {
                     </button>
                 )}
             </div>
-
             <span className="figure-name">{shape.name}</span>
         </div>
     )

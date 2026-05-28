@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import AnimationModal from './AnimationModal'
+import ShapeIcon from './ShapeIcon'
 
 const HAS_ANIMATION = ['cone', 'cylinder', 'sphere']
 
@@ -93,17 +94,25 @@ export default function MobileHeader({ activeShape, onShapeChange }) {
                             style={{ flex: 1 }}
                             onClick={() => { onShapeChange(shape.id); setMenuOpen(false) }}
                         >
-                            <div className="mobile-shape-thumb" style={{ position: 'relative' }}>
-                                <Canvas camera={{ position: [2.5, 1.8, 2.5], fov: 45 }}>
-                                    <ambientLight intensity={0.5} />
-                                    <directionalLight position={[3, 4, 3]} intensity={1.2} />
-                                    <SpinningShape shapeId={shape.id} />
-                                </Canvas>
-                            </div>
-                            <span className="mobile-shape-name">{shape.name}</span>
+                            <button
+                                key={shape.id}
+                                className={`mobile-shape-btn ${activeShape === shape.id ? 'active' : ''}`}
+                                onClick={() => { onShapeChange(shape.id); setMenuOpen(false) }}
+                            >
+                                <div className="mobile-shape-thumb" style={{
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                }}>
+                                    <ShapeIcon
+                                        shapeId={shape.id}
+                                        size={36}
+                                        color={activeShape === shape.id ? 'rgba(79,142,247,0.9)' : 'rgba(79,142,247,0.45)'}
+                                    />
+                                </div>
+                                <span className="mobile-shape-name">{shape.name}</span>
+                            </button>
                         </button>
 
-                        {/* przycisk play — zawsze widoczny dla figur z animacją */}
+                        {/* przycisk play */}
                         {HAS_ANIMATION.includes(shape.id) && (
                             <button
                                 onClick={e => {

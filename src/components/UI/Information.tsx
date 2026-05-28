@@ -6,14 +6,8 @@ export function SafeMath({ value }: { value: string }) {
         .replace(/\\\(|\\\)/g, '')
         .replace(/\\\[|\\\]/g, '')
         .trim()
-
-    if (!cleaned) return <span style={{ color: 'rgba(255,255,255,0.55)' }}>—</span>
-
-    try {
-        return <InlineMath math={cleaned} />
-    } catch {
-        return <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>{cleaned}</span>
-    }
+    if (!cleaned) return <span>—</span>
+    return <InlineMath math={cleaned} />
 }
 
 export default function ShapeInfoPanel({ shapeData }) {
