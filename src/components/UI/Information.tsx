@@ -2,18 +2,18 @@ import { useState } from 'react'
 import { BlockMath, InlineMath } from "react-katex"
 
 export function SafeMath({ value }: { value: string }) {
-    const cleaned = value.replace(/\\\(|\\\)/g, '').trim()
+    const cleaned = value
+        .replace(/\\\(|\\\)/g, '')
+        .replace(/\\\[|\\\]/g, '')
+        .trim()
+
     if (!cleaned) return <span style={{ color: 'rgba(255,255,255,0.55)' }}>—</span>
-    return (
-        <InlineMath
-            math={cleaned}
-            renderError={(err) => (
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>
-                    {cleaned}
-                </span>
-            )}
-        />
-    )
+
+    try {
+        return <InlineMath math={cleaned} />
+    } catch {
+        return <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>{cleaned}</span>
+    }
 }
 
 export default function ShapeInfoPanel({ shapeData }) {

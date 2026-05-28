@@ -18,6 +18,9 @@ import Pyramid from './components/shapes/Pyramid'
 import { useIsMobile } from './hooks/useIsMobile'
 import MobileHeader from './components/UI/MobileHeader'
 import BottomPanel from './components/UI/BottomPanel'
+import { cubeData } from './components/data/cube' // lub skąd importujesz
+
+console.log(JSON.stringify(cubeData.formulas))
 
 
 const shapeMap = {
