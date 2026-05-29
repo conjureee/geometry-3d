@@ -9,6 +9,7 @@ export const INSTRUCTIONS = [
     { icon: '💡', text: 'Panel po lewej -> informacje o bryle (m.in. opis, wzory, ciekawostki)' },
     { icon: '🎛️', text: 'Panel po prawej (Parametry) -> parametry i nakładki' },
     { icon: '🔪', text: 'Panel po prawej (Przekroje) -> przekroje brył, możliwe do wyboru różne osie' },
+    { icon: '🎨️', text: 'Panel po prawej (Tło) → zmiana tła' },
 ];
 
 export const TOUCH_INSTRUCTIONS = [
@@ -19,6 +20,7 @@ export const TOUCH_INSTRUCTIONS = [
     { icon: '🎬', text: 'Przycisk ▶ przy bryle → animacja powstawania' },
     { icon: '💡', text: 'Panel Informacje → opis, wzory, ciekawostki' },
     { icon: '🎛️', text: 'Panel Parametry → parametry, nakładki i przekroje' },
+    { icon: '🎨️', text: 'Panel Tło → zmiana tła' },
 ]
 
 export default function HelpButton() {

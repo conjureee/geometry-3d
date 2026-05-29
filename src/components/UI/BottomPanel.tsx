@@ -2,13 +2,18 @@ import { useState } from 'react'
 import Controls from './Controls'
 import MathRenderer from './MathRenderer'
 
-export default function BottomPanel({ activeShape, params, onChange, overlays, onOverlayChange, crossSection, onCrossSectionChange, shapeData }) {
+export default function BottomPanel({
+                                        activeShape, params, onChange,
+                                        overlays, onOverlayChange,
+                                        crossSection, onCrossSectionChange,
+                                        shapeData,
+                                        bgColor, onBgColorChange,
+                                    }) {
     const [paramsOpen, setParamsOpen] = useState(false)
     const [infoOpen, setInfoOpen] = useState(false)
 
     return (
         <>
-            {/* panel INFORMACJE */}
             <div className={`bottom-drawer bottom-drawer-info ${infoOpen ? 'open' : 'closed'}`}
                  style={{ bottom: 48 }}>
                 <div className="bottom-handle" onClick={() => setInfoOpen(o => !o)}>
@@ -21,7 +26,6 @@ export default function BottomPanel({ activeShape, params, onChange, overlays, o
                 </div>
             </div>
 
-            {/* panel PARAMETRY */}
             <div className={`bottom-drawer bottom-drawer-params ${paramsOpen ? 'open' : 'closed'}`}>
                 <div className="bottom-handle" onClick={() => setParamsOpen(o => !o)}>
                     <div className="bottom-handle-bar bottom-handle-bar-blue" />
@@ -37,6 +41,8 @@ export default function BottomPanel({ activeShape, params, onChange, overlays, o
                         onOverlayChange={onOverlayChange}
                         crossSection={crossSection}
                         onCrossSectionChange={onCrossSectionChange}
+                        bgColor={bgColor}
+                        onBgColorChange={onBgColorChange}
                         embedded={true}
                     />
                 </div>
@@ -59,13 +65,13 @@ function InfoContent({ shapeData }) {
 
             <InfoSection title="Wzory">
                 {Object.entries(formulas).map(([k, v]) => (
-                    <InfoRow key={k} label={k} value={v.replace(/\\\(|\\\)/g, '')} math />
+                    <InfoRow key={k} label={k} value={v} math />
                 ))}
             </InfoSection>
 
             <InfoSection title="Wymiary">
                 {Object.entries(dimensions).map(([k, v]) => (
-                    <InfoRow key={k} label={k} value={v.replace(/\\\(|\\\)/g, '')} math />
+                    <InfoRow key={k} label={k} value={v} math />
                 ))}
             </InfoSection>
 
@@ -89,7 +95,6 @@ function InfoSection({ title, children }) {
 }
 
 function InfoRow({ label, value, math }) {
-    const cleaned = value.replace(/\\\(|\\\)/g, '').trim()
     return (
         <div className="info-row">
             <span className="info-row-label">{label}:</span>

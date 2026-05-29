@@ -47,17 +47,15 @@ const OVERLAYS = {
         { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(255,80,80,0.8)', default: false, maxCount: 4 },
     ],
     prism: [
-        { key: 'showEdges', label: 'krawędzie ścian',    color: null, default: true },
+        { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
         { key: 'showBaseDiagonals', label: 'przekątne podstawy', color: 'rgba(255,80,80,0.8)', default: false },
-        { key: 'showInclined', label: 'ostrosłup pochylony', default: false },
-        // { key: 'showFaceDiagonals', label: 'przekątne ścian', color: 'rgba(255,170,50,0.8)', default: false, maxCount: 2 },
-        // { key: 'showBodyDiagonals', label: 'przekątne bryły', color: 'rgba(200,7,7,0.9)', default: false }
+        { key: 'showInclined', label: 'graniastosłup pochylony', default: false },
     ],
     pyramid: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
         { key: 'showHeight', label: 'wysokość', color: 'rgba(80,255,120,0.8)', default: true },
         { key: 'showBaseDiagonals', label: 'przekątne podstawy', color: 'rgba(255,80,80,0.8)', default: false },
-        { key: 'showInclined', label: 'ostrosłup pochylony', default: false }
+        { key: 'showInclined', label: 'ostrosłup pochylony', default: false },
     ],
     tetrahedron: [
         { key: 'showEdges', label: 'krawędzie ścian', color: null, default: true },
@@ -79,6 +77,8 @@ const OVERLAYS = {
     ],
 }
 
+const BG_PRESETS = ['#0d0d1e', '#1a1a2e', '#0f1923', '#1a0f2e', '#0d1a0f', '#1a1a1a', '#2e1a0f']
+
 export function getDefaults(shapeId) {
     const obj = {}
     ;(CONTROLS[shapeId] || []).forEach(c => { obj[c.key] = c.default })
@@ -94,13 +94,19 @@ export function getOverlayDefaults(shapeId) {
     return obj
 }
 
-export default function Controls({activeShape, params, onChange, overlays, onOverlayChange, crossSection, onCrossSectionChange, embedded = false}) {
-
+export default function Controls({
+                                     activeShape, params, onChange,
+                                     overlays, onOverlayChange,
+                                     crossSection, onCrossSectionChange,
+                                     bgColor, onBgColorChange,
+                                     embedded = false,
+                                 }) {
     const controls = CONTROLS[activeShape] || []
     const overlayDefs = OVERLAYS[activeShape] || []
 
     const [open, setOpen] = useState(true)
     const [csOpen, setCsOpen] = useState(true)
+    const [bgOpen, setBgOpen] = useState(false)
 
     const showCrossSection = activeShape === 'prism'
 
@@ -123,6 +129,8 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
 
     return (
         <div className={embedded ? 'controls-panel-embedded' : 'controls-panel'}>
+
+            {/* PARAMETRY */}
             <div className="controls-header" onClick={() => setOpen(o => !o)}>
                 <span className="controls-title">parametry</span>
                 <svg width="12" height="8" viewBox="0 0 14 8" fill="none"
@@ -131,7 +139,7 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
                 </svg>
             </div>
 
-            <div className={`controls-body-wrapper ${open ? "open" : ""}`}>
+            <div className={`controls-body-wrapper ${open ? 'open' : ''}`}>
                 <div className="controls-body">
                     {controls.map(ctrl => (
                         <div key={ctrl.key} className="control-row">
@@ -169,18 +177,16 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
                             {ov.maxCount !== undefined && (overlays?.[ov.key] ?? ov.default) && (
                                 <div className="control-row" style={{ marginTop: 6 }}>
                                     <div className="control-label-row">
-                                    <span className="control-label" style={{ fontSize: 10, opacity: 0.6 }}>
-                                        ilość widocznych
-                                    </span>
-                                    <span className="control-value">
-                                        {overlays?.[ov.key + 'Count'] ?? ov.maxCount}
-                                    </span>
+                                        <span className="control-label" style={{ fontSize: 10, opacity: 0.6 }}>
+                                            ilość widocznych
+                                        </span>
+                                        <span className="control-value">
+                                            {overlays?.[ov.key + 'Count'] ?? ov.maxCount}
+                                        </span>
                                     </div>
                                     <input
                                         type="range"
-                                        min={1}
-                                        max={ov.maxCount}
-                                        step={1}
+                                        min={1} max={ov.maxCount} step={1}
                                         value={overlays?.[ov.key + 'Count'] ?? ov.maxCount}
                                         onChange={e => onOverlayChange(ov.key + 'Count', parseInt(e.target.value))}
                                         className="control-slider"
@@ -192,9 +198,10 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
                 </div>
             </div>
 
+            {/* PRZEKROJE */}
             {showCrossSection && crossSection && (
                 <>
-                    <div className="controls-header" onClick={() => setCsOpen(o => !o)} style={{ marginTop: '8px' }}>
+                    <div className="controls-header" onClick={() => setCsOpen(o => !o)} style={{ marginTop: 8 }}>
                         <span className="controls-title">przekroje</span>
                         <svg width="12" height="8" viewBox="0 0 14 8" fill="none"
                              style={{ transform: csOpen ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.3s' }}>
@@ -202,7 +209,7 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
                         </svg>
                     </div>
 
-                    <div className={`controls-body-wrapper ${csOpen ? "open" : ""}`}>
+                    <div className={`controls-body-wrapper ${csOpen ? 'open' : ''}`}>
                         <div className="controls-body">
                             <div className="control-row">
                                 <label className="toggle-row">
@@ -243,6 +250,49 @@ export default function Controls({activeShape, params, onChange, overlays, onOve
                     </div>
                 </>
             )}
+
+            {/* TŁO */}
+            {onBgColorChange && (
+                <>
+                    <div className="controls-header" onClick={() => setBgOpen(o => !o)} style={{ marginTop: 8 }}>
+                        <span className="controls-title">tło</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <div className="bg-color-preview" style={{ background: bgColor }} />
+                            <svg width="12" height="8" viewBox="0 0 14 8" fill="none"
+                                 style={{ transform: bgOpen ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.3s' }}>
+                                <path d="M1 1L7 7L13 1" stroke="rgba(79,142,247,0.7)" strokeWidth="1.5" strokeLinecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div className={`controls-body-wrapper ${bgOpen ? 'open' : ''}`}>
+                        <div className="controls-body">
+                            <div className="control-row">
+                                <div className="control-label-row">
+                                    <span className="control-label">własny kolor</span>
+                                    <input
+                                        type="color"
+                                        value={bgColor}
+                                        onChange={e => onBgColorChange(e.target.value)}
+                                        className="bg-color-input"
+                                    />
+                                </div>
+                            </div>
+                            <div className="bg-presets">
+                                {BG_PRESETS.map(c => (
+                                    <button
+                                        key={c}
+                                        onClick={() => onBgColorChange(c)}
+                                        className={`bg-preset-btn ${bgColor === c ? 'active' : ''}`}
+                                        style={{ background: c }}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
         </div>
     )
 }

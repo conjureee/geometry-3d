@@ -1045,14 +1045,49 @@ body {
     transform: scale(1.05);
 }
 
-/* KaTeX fix */
+/* TŁO */
 
-.katex { color: rgba(255, 255, 255, 0.75) !important; }
+.bg-presets {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
 
-.katex-display { color: rgba(255, 255, 255, 0.75) !important; }
+.bg-preset-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    transition: border 0.15s, transform 0.1s;
+}
 
-.katex-error {
-    color: rgba(255, 255, 255, 0.5) !important;
-    font-size: 11px !important;
-    text-decoration: none !important;
+.bg-preset-btn:hover {
+    transform: scale(1.15);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.bg-preset-btn.active {
+    border: 2px solid rgba(79, 142, 247, 0.9);
+}
+
+.bg-color-preview {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+.bg-color-input {
+    width: 32px;
+    height: 24px;
+    border: 1px solid rgba(79, 142, 247, 0.3);
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+    padding: 2px;
 }

@@ -18,24 +18,25 @@ import { useIsMobile } from './hooks/useIsMobile'
 import MobileHeader from './components/UI/MobileHeader'
 import BottomPanel from './components/UI/BottomPanel'
 
-
 const shapeMap = {
     tetrahedron: (p) => <Tetrahedron {...p} />,
-    cube: (p) => <Cube {...p} />,
-    sphere: (p) => <Sphere {...p} />,
-    cone: (p) => <Cone {...p} />,
-    cylinder: (p) => <Cylinder {...p} />,
-    cuboid: (p) => <Cuboid {...p} />,
-    prism: (p) => <Prism {...p} />,
-    pyramid: (p) => <Pyramid {...p} />,
+    cube:        (p) => <Cube {...p} />,
+    sphere:      (p) => <Sphere {...p} />,
+    cone:        (p) => <Cone {...p} />,
+    cylinder:    (p) => <Cylinder {...p} />,
+    cuboid:      (p) => <Cuboid {...p} />,
+    prism:       (p) => <Prism {...p} />,
+    pyramid:     (p) => <Pyramid {...p} />,
 }
 
 export default function App() {
     const { isMobile } = useIsMobile()
+
     const [activeShape, setActiveShape] = useState('cube')
-    const [params, setParams]   = useState(() => getDefaults('cube'))
+    const [params, setParams]     = useState(() => getDefaults('cube'))
     const [overlays, setOverlays] = useState(() => getOverlayDefaults('cube'))
-    const [color] = useState('#FFFDEB')
+    const [shapeColor]            = useState('#FFFDEB')
+    const [bgColor, setBgColor]   = useState('#1a1a2e')
     const [crossSection, setCrossSection] = useState({ enabled: false, plane: 'XY', position: 0 })
 
     function handleShapeChange(id) {
@@ -58,7 +59,7 @@ export default function App() {
     }
 
     return (
-        <div className="screen">
+        <div className="screen" style={{ background: bgColor }}>
             {isMobile
                 ? <MobileHeader activeShape={activeShape} onShapeChange={handleShapeChange} />
                 : <Sidebar activeShape={activeShape} onShapeChange={handleShapeChange} />
@@ -77,15 +78,21 @@ export default function App() {
                         onOverlayChange={handleOverlayChange}
                         crossSection={crossSection}
                         onCrossSectionChange={handleCrossSectionChange}
+                        bgColor={bgColor}
+                        onBgColorChange={setBgColor}
                     />
                 </>
             )}
 
-            <Canvas camera={{ position: [3, 3, 3], fov: 65 }} gl={{ localClippingEnabled: true }}>
+            <Canvas
+                camera={{ position: [3, 3, 3], fov: 65 }}
+                gl={{ localClippingEnabled: true }}
+                style={{ background: bgColor, position: 'absolute', inset: 0 }}
+            >
                 <ambientLight intensity={0.3} />
                 <directionalLight position={[5, 5, 5]} intensity={1.2} />
                 <directionalLight position={[-5, 2, -5]} intensity={0.3} />
-                {shapeMap[activeShape]?.({ ...params, color, ...overlays, crossSection })}
+                {shapeMap[activeShape]?.({ ...params, color: shapeColor, ...overlays, crossSection })}
                 <OrbitControls />
             </Canvas>
 
@@ -99,6 +106,8 @@ export default function App() {
                     crossSection={crossSection}
                     onCrossSectionChange={handleCrossSectionChange}
                     shapeData={solids[activeShape]}
+                    bgColor={bgColor}
+                    onBgColorChange={setBgColor}
                 />
             )}
         </div>
