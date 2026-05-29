@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const CONTROLS = {
     tetrahedron: [
@@ -101,6 +101,7 @@ export default function Controls({
                                      bgColor, onBgColorChange,
                                      embedded = false,
                                  }) {
+
     const controls = CONTROLS[activeShape] || []
     const overlayDefs = OVERLAYS[activeShape] || []
 
@@ -126,6 +127,13 @@ export default function Controls({
         if (crossSection.plane === 'XY') return { posMin: Math.min(...xs), posMax: Math.max(...xs) }
         return { posMin: Math.min(...zs), posMax: Math.max(...zs) }
     })()
+
+    // === AUTO WYŁĄCZANIE PRZEKROJU GDY WŁĄCZONE POCHYLENIE ===
+    useEffect(() => {
+        if (overlays?.showInclined && crossSection?.enabled) {
+            onCrossSectionChange('enabled', false)
+        }
+    }, [overlays?.showInclined, crossSection?.enabled, onCrossSectionChange])
 
     return (
         <div className={embedded ? 'controls-panel-embedded' : 'controls-panel'}>
@@ -198,8 +206,8 @@ export default function Controls({
                 </div>
             </div>
 
-            {/* PRZEKROJE */}
-            {showCrossSection && crossSection && (
+            {/* PRZEKROJE - tylko gdy NIE jest pochylony */}
+            {showCrossSection && crossSection && !overlays?.showInclined && (
                 <>
                     <div className="controls-header" onClick={() => setCsOpen(o => !o)} style={{ marginTop: 8 }}>
                         <span className="controls-title">przekroje</span>
@@ -249,6 +257,21 @@ export default function Controls({
                         </div>
                     </div>
                 </>
+            )}
+
+            {/* Komunikat gdy pochylony */}
+            {showCrossSection && overlays?.showInclined && (
+                <div className="controls-header" style={{ marginTop: 8, opacity: 0.65 }}>
+                    <span className="controls-title">przekroje</span>
+                    <span style={{
+                        fontSize: '11px',
+                        color: '#ffaa66',
+                        marginLeft: 'auto',
+                        fontStyle: 'italic'
+                    }}>
+                        niedostępne
+                    </span>
+                </div>
             )}
 
             {/* TŁO */}

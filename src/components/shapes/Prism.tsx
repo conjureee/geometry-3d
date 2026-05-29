@@ -11,9 +11,6 @@ export default function Prism({
                                   showEdges,
                                   showBaseDiagonals,
                                   showInclined
-                                  // showFaceDiagonals,
-                                  // showBodyDiagonals,
-                                  // showFaceDiagonalsCount,
                               }){
     const geo = useMemo(
         () => new THREE.CylinderGeometry(radius, radius, height, sides),
@@ -222,9 +219,6 @@ export default function Prism({
                 showEdges={showEdges}
                 showBaseDiagonals={showBaseDiagonals}
                 showInclined={showInclined}
-                // showFaceDiagonals={showFaceDiagonals}
-                // showFaceDiagonalsCount={showFaceDiagonalsCount}
-                // showBodyDiagonals={showBodyDiagonals}
             />
 
             {crossSection?.enabled && crossGeometry && (
