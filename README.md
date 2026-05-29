@@ -67,13 +67,20 @@ Zmiany są widoczne w czasie rzeczywistym na modelu 3D.
 
 ### ✂️ Przekroje Brył
 
-Dla wybranych figur, takich jak graniastosłupy, dostępna jest opcja wyświetlania przekrojów.
+Dla wybranych figur, dostępna jest opcja wyświetlania przekrojów.
 
 Użytkownik może wybrać przekrój względem osi:
 
 - XY
 - XZ
 - YZ
+
+---
+
+### 🎨 Ustawienia tla
+
+Aby zapewnić lepszą widoczność prezentowanych figur, dodana została opcja zmiany koloru tła.
+Użytkownik może szybko wybrać jeden z polecanych kolorów lub skorzystać z pełnej palety, aby dopasowac kontrast sceny do własnych preferencji.
 
 ---
 
